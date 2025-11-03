@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>追赶风车</title>
+  
+  
+  <link href="https://mikusugar.me/atom.xml" rel="self"/>
+  
+  <link href="https://mikusugar.me/"/>
+  <updated>2025-11-03T13:06:00.000Z</updated>
+  <id>https://mikusugar.me/</id>
+  
+  <author>
+    <name>三苦糖</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>成都马拉松2025</title>
+    <link href="https://mikusugar.me/2025/11/03/%E6%88%90%E9%A9%AC2025/"/>
+    <id>https://mikusugar.me/2025/11/03/%E6%88%90%E9%A9%AC2025/</id>
+    <published>2025-11-03T13:06:00.000Z</published>
+    <updated>2025-11-03T13:06:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="首次参加半马比赛"><a href="#首次参加半马比赛" class="headerlink" title="首次参加半马比赛"></a>首次参加半马比赛</h1><p>完成了一件年初就想完成的事情，参加一次半程马拉松赛事。<br>&nbsp;<a id="more"></a></p><p>参加赛事和自己一个人跑感觉还是很不一样的：</p><ul><li>平时跑步都是一个人，就算路上遇到其他跑者大家配速不一样，还是很快错过，比赛的时候人数特别多，总有和你配速差不多的，这种氛围还是第一次体验。</li><li>路边还有很多路人的加油声，这也是平时跑步没有的感受。</li><li>平时都是在公园或者跑步机跑，这是第一次在城市的大马路上跑。</li></ul><p>赛前一晚有点失眠，当晚还点外卖整了点褪黑素。跑步的状态不是很好，不过还是感觉很快乐，跑步就是让人快乐的事情。</p><p>完赛的奖牌很好看(&gt;^ω^&lt;)</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2025/11/IMG_8072.JPG" alt="IMG_8072"><br><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2025/11/Picsew_20251026154517.JPEG" alt="Picsew_20251026154517"><br><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2025/11/IMG_8023.jpg" alt="IMG_8023"><br><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2025/11/截屏.jpg" alt="截屏"></p>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;首次参加半马比赛&quot;&gt;&lt;a href=&quot;#首次参加半马比赛&quot; class=&quot;headerlink&quot; title=&quot;首次参加半马比赛&quot;&gt;&lt;/a&gt;首次参加半马比赛&lt;/h1&gt;&lt;p&gt;完成了一件年初就想完成的事情，参加一次半程马拉松赛事。&lt;br&gt;&amp;nbsp;</summary>
+    
+    
+    
+    
+    <category term="跑步" scheme="https://mikusugar.me/tags/跑步/"/>
+    
+    <category term="马拉松" scheme="https://mikusugar.me/tags/马拉松/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>用Zig辅助RUST进行跨平台交叉编译</title>
+    <link href="https://mikusugar.me/2025/09/19/Rust_ZigBuild/"/>
+    <id>https://mikusugar.me/2025/09/19/Rust_ZigBuild/</id>
+    <published>2025-09-19T07:00:10.000Z</published>
+    <updated>2025-09-19T07:00:10.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="用Zig辅助RUST进行跨平台交叉编译用Zig辅助RUST进行跨平台交叉编译"><a href="#用Zig辅助RUST进行跨平台交叉编译用Zig辅助RUST进行跨平台交叉编译" class="headerlink" title="用Zig辅助RUST进行跨平台交叉编译用Zig辅助RUST进行跨平台交叉编译"></a>用Zig辅助RUST进行跨平台交叉编译用Zig辅助RUST进行跨平台交叉编译</h1><h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>利用rust写的项目需要在mips64el环境下运行，并且该环境的glibc版本非常低，调研了各种方法后发现用Zig最为方便。</p><p>rust可以通过cargo-zigbuild工具利用zig的工具链方便的跨平台交叉编译，并且支持指定glibc版本。本文简单介绍使用方法。下面描述将环境分为构建机和运行机，构建机为构建打包的机器环境，运行机为程序的最终运行环境。</p><p>&nbsp;<a id="more"></a></p><h2 id="构建机环境准备"><a href="#构建机环境准备" class="headerlink" title="构建机环境准备"></a>构建机环境准备</h2><h3 id="1-安装Rust开发环境"><a href="#1-安装Rust开发环境" class="headerlink" title="1.安装Rust开发环境"></a>1.安装Rust开发环境</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh</span><br></pre></td></tr></table></figure><p>参考：<a href="https://www.rust-lang.org/tools/install" target="_blank" rel="noopener">https://www.rust-lang.org/tools/install</a></p><h3 id="2-安装Zig环境"><a href="#2-安装Zig环境" class="headerlink" title="2.安装Zig环境"></a>2.安装Zig环境</h3><p>以mac为例：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install zig</span><br></pre></td></tr></table></figure><p>其它系统参考：<a href="https://ziglang.org/download/" target="_blank" rel="noopener">https://ziglang.org/download/</a></p><h3 id="3-安装cargo-zigbuild"><a href="#3-安装cargo-zigbuild" class="headerlink" title="3.安装cargo-zigbuild"></a>3.安装cargo-zigbuild</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cargo install cargo-zigbuild</span><br></pre></td></tr></table></figure><h2 id="打包命令参考"><a href="#打包命令参考" class="headerlink" title="打包命令参考"></a>打包命令参考</h2><h3 id="1-获取运行机环境glibc版本"><a href="#1-获取运行机环境glibc版本" class="headerlink" title="1.获取运行机环境glibc版本"></a>1.获取运行机环境glibc版本</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ldd --version</span><br></pre></td></tr></table></figure><h3 id="2-构建机打包"><a href="#2-构建机打包" class="headerlink" title="2.构建机打包"></a>2.构建机打包</h3><p>简单分为两种情况，一种是Rust官方有现成的std包，例如aarch64-linux。一种是Rust官方没有现成的std包，例如mips64el-linux，下面分别介绍这两种情况的例子</p><ul><li>如果打包aarch64-linux</li></ul><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 下载官方的std包</span><br><span class="line">rustup target add aarch64-unknown-linux-gnu</span><br><span class="line"><span class="meta">#</span> 打包，下面的aarch64-unknown-linux-gnu.2.25最后的2.25指定的是glibc版本号</span><br><span class="line">cargo zigbuild --target aarch64-unknown-linux-gnu.2.25 --release</span><br></pre></td></tr></table></figure><ul><li>如果打包mips64el-linux</li></ul><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 标准库源码安装</span><br><span class="line">rustup component add rust-src --toolchain nightly</span><br><span class="line"><span class="meta">#</span># 对于mac-arm,标准库源码安装是</span><br><span class="line">rustup component add rust-src --toolchain nightly-aarch64-apple-darwin</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 编译打包，下面的mips64el-unknown-linux-gnuabi64.2.25 最后的2.25指定的是glibc版本号</span><br><span class="line">cargo +nightly zigbuild --target mips64el-unknown-linux-gnuabi64.2.25 --release -Z build-std=core,alloc,std,proc_macro</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;用Zig辅助RUST进行跨平台交叉编译用Zig辅助RUST进行跨平台交叉编译&quot;&gt;&lt;a href=&quot;#用Zig辅助RUST进行跨平台交叉编译用Zig辅助RUST进行跨平台交叉编译&quot; class=&quot;headerlink&quot; title=&quot;用Zig辅助RUST进行跨平台交叉编译用Zig辅助RUST进行跨平台交叉编译&quot;&gt;&lt;/a&gt;用Zig辅助RUST进行跨平台交叉编译用Zig辅助RUST进行跨平台交叉编译&lt;/h1&gt;&lt;h2 id=&quot;缘起&quot;&gt;&lt;a href=&quot;#缘起&quot; class=&quot;headerlink&quot; title=&quot;缘起&quot;&gt;&lt;/a&gt;缘起&lt;/h2&gt;&lt;p&gt;利用rust写的项目需要在mips64el环境下运行，并且该环境的glibc版本非常低，调研了各种方法后发现用Zig最为方便。&lt;/p&gt;
+&lt;p&gt;rust可以通过cargo-zigbuild工具利用zig的工具链方便的跨平台交叉编译，并且支持指定glibc版本。本文简单介绍使用方法。下面描述将环境分为构建机和运行机，构建机为构建打包的机器环境，运行机为程序的最终运行环境。&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;</summary>
+    
+    
+    
+    
+    <category term="Rust" scheme="https://mikusugar.me/tags/Rust/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>首次半马&amp;&amp;2024年十二月运动记录</title>
+    <link href="https://mikusugar.me/2025/01/01/202412_Sport/"/>
+    <id>https://mikusugar.me/2025/01/01/202412_Sport/</id>
+    <published>2025-01-01T13:33:00.000Z</published>
+    <updated>2025-01-01T13:33:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="运动记录"><a href="#运动记录" class="headerlink" title="运动记录"></a>运动记录</h2><p>最后一个月我的运动主要是跑步，跑了122公里，在这个月先突破了15公里，后面在2024年最后一天跑了半程马拉松。<br>&nbsp;<a id="more"></a></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2025/01/IMG_F12F2B120B9B-1.jpeg" alt="IMG_F12F2B120B9B-1" style="zoom:25%;"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2025/01/IMG_5002.jpg" alt="IMG_5002" style="zoom:25%;"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2025/01/IMG_5013.jpg" alt="IMG_5013" style="zoom:25%;"></p><h2 id="首次半程马拉松"><a href="#首次半程马拉松" class="headerlink" title="首次半程马拉松"></a>首次半程马拉松</h2><p>在2024年最后一天想做点什么来纪念一下，我选择了尝试跑一下半马，我的正常极限大概是16km，在16km处我感觉我的腿出现痛觉了，后半程我一路在自己对自己喊着加油，在快到终点的时候，前方正好有人在放烟花，眼泪突然流出来，我不知道我是高兴还是难受。</p><p>跑到21.1km的时候我停下来了，一种我从来没有体验过的快乐，极致的快乐突然向我袭来，我在跑道上边走边大笑，远处还有烟花升空炸裂的声音。我感觉我的脑子变的非常非常清醒，我很想和人分享我现在的快乐，感觉特别特别快乐，我给兄弟群发了一个大红包和我的兄弟分享我的喜悦，我又去公司锻炼群发了一个红包分享我的喜悦。。。</p><p>这种喜悦一直持续到深夜，我失眠了，也许是运动过后皮质醇太高导致我睡不着，也许是我太兴奋了，我感觉我的大脑非常的清醒，不断闪现各种人做出的行为，又不断闪现各种人之前的一些行为细节，我仿佛看透了他们的心理，仿佛知道了他们做出行为的动机。接着我又突然陷入了愤怒，这种愤怒很奇怪，我开始审视它，它又消失，接着巨大的悲伤向我袭过来，也许是要平衡之前的快乐情绪。。。过了一段时间快乐又向我袭来。</p><p>我的情绪就这样一直在快乐、悲伤之间来回切换，直到刚刚才突然感觉特别特别的疲惫，写完这些我就去睡觉了。</p><p>不知道明天的我是什么样的</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2025/01/IMG_F325587AC984-1.jpeg" alt="IMG_F325587AC984-1" style="zoom:33%;"></p>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;运动记录&quot;&gt;&lt;a href=&quot;#运动记录&quot; class=&quot;headerlink&quot; title=&quot;运动记录&quot;&gt;&lt;/a&gt;运动记录&lt;/h2&gt;&lt;p&gt;最后一个月我的运动主要是跑步，跑了122公里，在这个月先突破了15公里，后面在2024年最后一天跑了半程马拉松。&lt;br&gt;&amp;nbsp;</summary>
+    
+    
+    
+    
+    <category term="跑步" scheme="https://mikusugar.me/tags/跑步/"/>
+    
+    <category term="马拉松" scheme="https://mikusugar.me/tags/马拉松/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2024年十一月运动记录</title>
+    <link href="https://mikusugar.me/2024/12/01/202411_Sport/"/>
+    <id>https://mikusugar.me/2024/12/01/202411_Sport/</id>
+    <published>2024-12-01T14:01:00.000Z</published>
+    <updated>2024-12-01T14:01:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>十一月的运动只有跑步，跑了一百三十多公里，刷新了单次最长跑步距离，11.36公里。（因为天气太冷了，走回住处太冷了，选择跑回去。。。）<br>后面买了冬季跑步运动套装，跑步不冷了。<br>&nbsp;<a id="more"></a></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/12/IMG_5E517EDDACD4-1.jpeg" alt="IMG_5E517EDDACD4-1" style="zoom:33%;"></p><p>天气太冷了，早上没法早起了，几乎都是夜跑。<br><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/12/IMG_4949.jpg" alt="IMG_4949"><br><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/12/IMG_4950.jpg" alt="IMG_4950"></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;十一月的运动只有跑步，跑了一百三十多公里，刷新了单次最长跑步距离，11.36公里。（因为天气太冷了，走回住处太冷了，选择跑回去。。。）&lt;br&gt;后面买了冬季跑步运动套装，跑步不冷了。&lt;br&gt;&amp;nbsp;</summary>
+    
+    
+    
+    
+    <category term="跑步" scheme="https://mikusugar.me/tags/跑步/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2024年九月和十月运动记录</title>
+    <link href="https://mikusugar.me/2024/11/03/202409_and_10_Sport/"/>
+    <id>https://mikusugar.me/2024/11/03/202409_and_10_Sport/</id>
+    <published>2024-11-03T05:21:00.000Z</published>
+    <updated>2024-11-03T05:21:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>九月的运动主要是跑步、骑行和徒步，十月的运动主要是跑步。<br>&nbsp;<a id="more"></a></p><h2 id="跑步"><a href="#跑步" class="headerlink" title="跑步"></a>跑步</h2><p>九月份跑了70公里。</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/11/IMG_65FEDC48E122-1.jpeg" alt="IMG_65FEDC48E122-1" style="zoom:25%;"></p><p>十月份跑了124公里。</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/11/IMG_455A69E86A85-1.jpeg" alt="IMG_455A69E86A85-1" style="zoom:25%;"></p><p>在十月份的时候我通过<a href="https://github.com/yihong0618/running_page/blob/master/README-CN.md" target="_blank" rel="noopener">running_page</a>这个项目搭建了自己的<a href="https://mikusugar.me/running_page/">跑步主页</a>，希望可以一直坚持跑下去。</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/11/IMG_4600.jpg" alt="IMG_4600"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/11/IMG_4563.jpg" alt="IMG_4563"></p><h2 id="骑行"><a href="#骑行" class="headerlink" title="骑行"></a>骑行</h2><p>十月份没有骑行，九月份和朋友一起二刷了天府绿道。</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/11/IMG_DA2991E0D529-1.jpeg" alt="IMG_DA2991E0D529-1" style="zoom:25%;"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/11/IMG_D2A8AA65FE54-1.jpeg" alt="IMG_D2A8AA65FE54-1" style="zoom:25%;"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/11/IMG_4263.jpg" alt="IMG_4263"></p><h2 id="徒步"><a href="#徒步" class="headerlink" title="徒步"></a>徒步</h2><p>九月份徒步了黄龙、九寨沟、折多山。高海拔徒步真难顶，尤其是黄龙和折多山。</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/11/IMG_77972A9997BB-1.jpeg" alt="IMG_77972A9997BB-1" style="zoom:25%;"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/11/IMG_DCC8E03F9820-1.jpeg" alt="IMG_DCC8E03F9820-1" style="zoom:25%;"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/11/IMG_62DF513630E2-1.jpeg" alt="IMG_62DF513630E2-1" style="zoom:25%;"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/11/IMG_3724.jpg" alt="IMG_3724"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/11/IMG_3854.jpg" alt="IMG_3854"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/11/IMG_4208.jpg" alt="IMG_4208"></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;九月的运动主要是跑步、骑行和徒步，十月的运动主要是跑步。&lt;br&gt;&amp;nbsp;</summary>
+    
+    
+    
+    
+    <category term="跑步" scheme="https://mikusugar.me/tags/跑步/"/>
+    
+    <category term="骑行" scheme="https://mikusugar.me/tags/骑行/"/>
+    
+    <category term="徒步" scheme="https://mikusugar.me/tags/徒步/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2024年八月运动记录-月跑量破一百二公里</title>
+    <link href="https://mikusugar.me/2024/09/05/202408_Sport/"/>
+    <id>https://mikusugar.me/2024/09/05/202408_Sport/</id>
+    <published>2024-09-05T12:22:00.000Z</published>
+    <updated>2024-09-05T12:22:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>八月的运动主要是跑步，月跑量突破了120公里，骑行只骑行了四十多公里。<br>&nbsp;<a id="more"></a></p><h2 id="跑步"><a href="#跑步" class="headerlink" title="跑步"></a>跑步</h2><p>八月的跑步突破了120公里，配速稳定在6分配。这个月天气太热了，由夜跑换成了晨跑。</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/09/IMG_8A94FF112CC2-1.jpeg" alt="IMG_8A94FF112CC2-1"></p><h3 id="跑步与冥想"><a href="#跑步与冥想" class="headerlink" title="跑步与冥想"></a>跑步与冥想</h3><p>最近冥想做的比较少，跑步进入状态以后和冥想进入状态给我的感觉差不多，就是完全的放空，我很喜欢这种感觉，和跑步结束后带来的愉快感不太一样，放空的时候感觉不到累，啥都感觉不到一样，不知不觉就跑完了。</p><h3 id="跑步拍的照片"><a href="#跑步拍的照片" class="headerlink" title="跑步拍的照片"></a>跑步拍的照片</h3><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/09/IMG_3418.png" alt="IMG_3418"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/09/IMG_3419.png" alt="IMG_3419"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/09/IMG_3542.png" alt="IMG_3542"></p><h2 id="骑行"><a href="#骑行" class="headerlink" title="骑行"></a>骑行</h2><p>这个月骑行比较少，因为通勤没有骑车了。<br><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/09/IMG_EF3923F93930-1.jpeg" alt="IMG_EF3923F93930-1"></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;八月的运动主要是跑步，月跑量突破了120公里，骑行只骑行了四十多公里。&lt;br&gt;&amp;nbsp;</summary>
+    
+    
+    
+    
+    <category term="跑步" scheme="https://mikusugar.me/tags/跑步/"/>
+    
+    <category term="骑行" scheme="https://mikusugar.me/tags/骑行/"/>
+    
+    <category term="冥想" scheme="https://mikusugar.me/tags/冥想/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2024年7月运动记录</title>
+    <link href="https://mikusugar.me/2024/08/01/202407_Sport/"/>
+    <id>https://mikusugar.me/2024/08/01/202407_Sport/</id>
+    <published>2024-08-01T10:57:00.000Z</published>
+    <updated>2024-08-01T10:57:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>七月的运动依然集中在跑步和骑行，跑步跑了八十多公里，骑行了两百多公里。</p><p>&nbsp;<a id="more"></a></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/08/IMG_3354.JPEG" alt="IMG_3354" style="zoom: 25%;"></p><h2 id="跑步"><a href="#跑步" class="headerlink" title="跑步"></a>跑步</h2><p>跑步最大的进步是配速破七了，进入入门阶段了。</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/08/IMG_48327B793A55-1.jpeg" alt="IMG_48327B793A55-1" style="zoom:20%;"></p><p>下面放一些跑步期间拍的照片</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/08/IMG_3355.JPEG" alt="IMG_3355"></p><h2 id="骑行"><a href="#骑行" class="headerlink" title="骑行"></a>骑行</h2><p>这个月除了一次骑车从成都去眉山，其余的都是通勤骑行。</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/08/IMG_4D8DB7398614-1.jpeg" alt="IMG_4D8DB7398614-1" style="zoom:20%;"></p><p>一些照片。（天府大道真的笔直，上坡好累，下坡好爽</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/08/1RVcW6.png" alt="1RVcW6"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/08/HwK1DM.png" alt="HwK1DM"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/08/tTDyEK.png" alt="tTDyEK"></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;七月的运动依然集中在跑步和骑行，跑步跑了八十多公里，骑行了两百多公里。&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;</summary>
+    
+    
+    
+    
+    <category term="跑步" scheme="https://mikusugar.me/tags/跑步/"/>
+    
+    <category term="骑行" scheme="https://mikusugar.me/tags/骑行/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2024年6月运动记录</title>
+    <link href="https://mikusugar.me/2024/07/01/202406_Sport/"/>
+    <id>https://mikusugar.me/2024/07/01/202406_Sport/</id>
+    <published>2024-07-01T08:54:00.000Z</published>
+    <updated>2024-07-01T08:54:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>六月的运动主要集中在跑步和骑行。<br>&nbsp;<a id="more"></a></p><h2 id="跑步"><a href="#跑步" class="headerlink" title="跑步"></a>跑步</h2><p>这个月跑了75公里，慢慢把配速拉上去了。<br><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/07/R1HKIx.png" alt="R1HKIx" style="zoom:20%;"><br>最快的配速也终于5公里破七了。<br><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/07/IMG_7E060A4892DA-1.png" alt="IMG_7E060A4892DA-1" style="zoom:25%;"></p><h2 id="骑行"><a href="#骑行" class="headerlink" title="骑行"></a>骑行</h2><p>这个月骑了312公里。</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/07/4X5oot.png" alt="4X5oot" style="zoom: 67%;"></p><p>除了日常通勤以外，骑行了两次比较长的。</p><h3 id="深圳骑行去海边"><a href="#深圳骑行去海边" class="headerlink" title="深圳骑行去海边"></a>深圳骑行去海边</h3><p>和朋友一起骑行的</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/07/IMG_2913.PNG" alt="IMG_2913" style="zoom:25%;"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/07/IMG_2914.PNG" alt="IMG_2914" style="zoom:25%;"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/07/IMG_2468.png" alt="IMG_2468"></p><h3 id="成都绕城绿道"><a href="#成都绕城绿道" class="headerlink" title="成都绕城绿道"></a>成都绕城绿道</h3><p>一个人骑行的，从早上骑到下午，包括住的地方到绿道，总共135公里。</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/07/IMG_2911.PNG" alt="IMG_2911" style="zoom:33%;"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/07/IMG_2912.PNG" alt="IMG_2912" style="zoom:33%;"></p><p>买的第一辆山地车</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/07/V6dsA5.png" alt="V6dsA5"></p><p>路边的小吃</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/07/23xoln.png" alt="23xoln"></p><p>午饭，凉面</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/07/EGTV0m.png" alt="EGTV0m"></p><p>路边的野花</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/07/j6Q7Xi.png" alt="j6Q7Xi"></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;六月的运动主要集中在跑步和骑行。&lt;br&gt;&amp;nbsp;</summary>
+    
+    
+    
+    
+    <category term="跑步" scheme="https://mikusugar.me/tags/跑步/"/>
+    
+    <category term="骑行" scheme="https://mikusugar.me/tags/骑行/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>初入冥想</title>
+    <link href="https://mikusugar.me/2024/06/06/%E5%88%9D%E5%85%A5%E5%86%A5%E6%83%B3/"/>
+    <id>https://mikusugar.me/2024/06/06/%E5%88%9D%E5%85%A5%E5%86%A5%E6%83%B3/</id>
+    <published>2024-06-06T03:04:00.000Z</published>
+    <updated>2024-06-06T03:04:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>前段时间为了让自己平静下来，开始尝试冥想，我所使用的方法是正念冥想，简单的所就是坐端正，闭上眼睛，用鼻子呼吸，数呼吸。参考了conge写的 <a href="https://conge.livingwithfcs.org/tag/#%E5%86%A5%E6%83%B3" target="_blank" rel="noopener">blog</a>。</p><h2 id="感受"><a href="#感受" class="headerlink" title="感受"></a>感受</h2><p>第一次冥想了10分钟，睁眼之后感觉非常平静。冥想过程中能感受到非常多的念头，不需要去管他们，把注意力拉回呼吸，那些念头会自己消散，有的时候观察念头的升起和消散也很有趣。不过，不是很建议长时间冥想，当我的时间超过15-20分钟后，便会出现一些意料之外的感受，下面说说遇到的一些情况：</p><ul><li>我突然感觉有人在抱着我，触感非常真实</li><li>突然感觉看到大海，念头就像一个一个气泡从海上升起，然后又破裂，我观察这些念头，突然看到一个泡泡在海平面上不上升，海底有巨大的阴影，我尝试观察，心率开始加快，冥想终止，可能这是我的心结吧</li><li>突然看到恶佛的头</li><li>听到清晰的标准播音腔在说话，但是听不清内容</li></ul><p>现在我不再尝试冥想超过15分钟。</p><p>现在冥想大概也尝试了快一个月了，我发现我越来越与自己有一种抽离感？看到念头的时候感觉像是他人的念头一样，我作为一个旁观者观察我。我不知道这种状态是好还是坏，不过让我越来越平静，我感觉我像是在玩游戏一样，我在操控我自己，比如我最近在跑步，很容易就坚持下来，因为我想给自己加身体的属性值，我就像游戏一样操控自己去跑步。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;缘起&quot;&gt;&lt;a href=&quot;#缘起&quot; class=&quot;headerlink&quot; title=&quot;缘起&quot;&gt;&lt;/a&gt;缘起&lt;/h2&gt;&lt;p&gt;前段时间为了让自己平静下来，开始尝试冥想，我所使用的方法是正念冥想，简单的所就是坐端正，闭上眼睛，用鼻子呼吸，数呼吸。参考了conge写的 </summary>
+      
+    
+    
+    
+    
+    <category term="冥想" scheme="https://mikusugar.me/tags/冥想/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>与chatgpt扮演的苏哥拉底讨论独立</title>
+    <link href="https://mikusugar.me/2024/06/01/%E8%8B%8F%E6%A0%BC%E6%8B%89%E5%BA%95%E6%8E%A2%E8%AE%A8%E7%8B%AC%E7%AB%8B/"/>
+    <id>https://mikusugar.me/2024/06/01/%E8%8B%8F%E6%A0%BC%E6%8B%89%E5%BA%95%E6%8E%A2%E8%AE%A8%E7%8B%AC%E7%AB%8B/</id>
+    <published>2024-05-31T16:42:00.000Z</published>
+    <updated>2024-05-31T16:42:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>突然想到之前在《刺客信条 奥德赛》中苏哥拉底的任务，试试和gpt扮演的苏哥拉底对话</p></blockquote><p><a href="https://chatgpt.com/share/093b02d8-aa98-471d-8fe6-e51b0d1295b9" target="_blank" rel="noopener">对话内容</a></p><p>我:请你扮演苏格拉底和我对话</p><p>ChatGPT:当然，我很乐意扮演苏格拉底。让我们开始这场对话吧。你可以从任何问题或主题开始。</p><p>你有什么问题想要讨论或探讨的吗？</p><p>我:人如何才是独立的<br>&nbsp;<a id="more"></a></p><p>ChatGPT:这是一个很深刻的问题。为了探讨这个问题，让我们先从一些基本的定义开始。你如何定义“独立”呢？独立对于你意味着什么？</p><p>我:我认为人独立分为物质独立和精神独立，物质独立是能独立自给自足，精神独立是不依赖他人，我之前认为人独立主要是物质独立，但是现在我依赖的人离开了我，我感觉痛苦<br>ChatGPT:你的定义很有见地。你提到了物质独立和精神独立，这是非常重要的区分。让我们逐步探讨这些概念。</p><p>首先，关于物质独立。你提到这是指一个人能够自给自足。你认为一个人在物质上完全自给自足是否足够让他感到真正独立？</p><p>其次，关于精神独立。你提到这是指不依赖他人。你是否认为真正的精神独立意味着完全不需要他人的支持或陪伴？或者，精神独立是否可能包含一种健康的关系和相互依赖？</p><p>最后，你提到当依赖的人离开时，你感到痛苦。你认为这种痛苦是否揭示了独立的另一个层面？也许独立并不仅仅是自给自足或不依赖他人，而是如何在失去依赖时重新找到自己的平衡和力量。</p><p>你怎么看这些问题？</p><p>我:物质的独立无法感到独立，我认为精神独立是完全不依赖他人，最后一个问题我不知道<br>ChatGPT:你的思考很深刻。让我们继续探讨这些观点。</p><p>首先，你提到物质的独立无法带来真正的独立。这表明你意识到物质上的自给自足并不足以满足人的全部需求。人的需求不仅仅是物质上的，还有心理和情感上的。</p><p>关于精神独立，你认为这是完全不依赖他人。这是一个很高的标准。让我们进一步探讨：如果一个人完全不依赖他人，他是否还能体验到人际关系中的支持、爱和关怀？这种完全的独立是否可能导致孤立？</p><p>最后一个问题涉及到你在失去依赖时感到的痛苦。这种痛苦或许揭示了人的一种本质——我们是社会性动物，需要与他人建立联系和关系。精神独立可能并不是完全不依赖他人，而是能够在依赖关系发生变化时，找到内在的力量和稳定感。</p><p>让我们思考一下：精神独立是否可以理解为一种内在的平衡和自信，无论外界环境如何变化？这种独立是否意味着你可以在需要时寻求支持，但在支持消失时，仍然能够保持内心的平静和力量？</p><p>你怎么看这种理解？</p><p>我:我认为就算独立也应该能感受到他人的爱和关怀，你说的对，精神独立重要的是在任何情景下都能保持稳定和平静<br>ChatGPT:你的思考非常深刻。我也同意，独立并不意味着拒绝他人的爱和关怀。相反，真正的精神独立可能意味着在接受他人支持的同时，仍然能够保持内心的稳定和平静。</p><p>让我们进一步探讨精神独立的内涵。或许我们可以通过以下几个问题来加深理解：</p><p>内在力量：精神独立是否意味着拥有一种内在的力量，使我们能够在面对困境和挑战时，不轻易被外界的变化所动摇？<br>自我认知：你认为了解自己、接受自己、不因他人的评价而改变自己的价值观和行为，是精神独立的重要组成部分吗？<br>情感管理：精神独立是否包括能够有效地管理自己的情感，在失去依赖时找到自我安慰和支持的方法？<br>关系的平衡：你认为精神独立与人际关系之间如何平衡？如何在依赖他人和保持自我之间找到平衡？<br>你的见解已经表明你对精神独立有了深刻的理解。或许我们可以通过这些问题进一步探讨，找出更多具体的方法来实现和保持这种精神独立。</p><p>你怎么看这些问题？或者你有其他具体的问题或困惑希望探讨吗？</p><p>我:内在力量，我认为可能需要相信自己，自我认知应该是重要组成部分，我现在会自我怀疑，情感管理是需要平静，我现在使用的方法是冥想和跑步，关系的平衡我认为是不要干涉他人的选择？<br>ChatGPT:你的观点非常清晰，让我们深入探讨每一个方面：</p><p>内在力量和自我信念：</p><p>你提到相信自己，这是内在力量的核心。你认为有哪些具体的方法可以增强自己的信心和内在力量？例如，设定小目标并逐步实现、记录自己的成就等。<br>自我认知：</p><p>自我认知确实是精神独立的重要组成部分。你提到会自我怀疑，或许可以通过反思和自我对话来缓解这种怀疑。你是否有尝试过写日记或者与值得信赖的朋友交流，来更好地认识和接纳自己？<br>情感管理：</p><p>你使用冥想和跑步来平静情绪，这是很好的方法。你认为还有哪些活动或练习可以帮助你更好地管理情感，比如艺术创作、阅读、或者其他你感兴趣的活动？<br>关系的平衡：</p><p>你提到不干涉他人的选择，这是一个重要的原则。你认为在不干涉他人的同时，如何表达你的关心和支持？比如，通过倾听和理解对方，而不是试图改变他们的决定。<br>你已经展示了很多智慧和自我反思的能力。或许我们可以进一步探讨每一个方面，找出更多具体的方法来增强你的精神独立性。</p><p>你怎么看这些建议？有没有特别想深入探讨的某个方面？</p><p>我:我想探讨自我认知和关系的平衡<br>ChatGPT:当然，我们可以深入探讨自我认知和关系的平衡。</p><p>自我认知<br>自我反思：</p><p>写日记：每天花几分钟写下当天的经历、感受和思考，可以帮助你更好地了解自己。这不仅能记录下你的进步，还能帮助你发现一些可能平时忽略的内在情感和想法。<br>自我对话：与自己进行对话，问自己一些深层次的问题，比如：“我真正想要的是什么？”“我目前的行动是否符合我的价值观？”这样可以帮助你更清晰地认识自己。<br>反馈与倾听：</p><p>寻求反馈：与值得信赖的朋友或家人交流，听取他们对你的看法和建议，这有助于你看到自己可能忽略的优点和需要改进的地方。<br>倾听自己：在做决定时，倾听内心的声音，信任自己的直觉，不要被外界的噪音干扰。<br>接受和包容：</p><p>接受自己的不完美：每个人都有优点和缺点，接受自己的不完美并不代表放弃改进，而是以更健康的心态面对自己。<br>自我包容：对自己宽容，不因为一时的错误或失败而过于自责，学会从中吸取教训，继续前进。<br>关系的平衡<br>尊重他人的选择：</p><p>不干涉他人：尊重他人的决定和选择，即使这些决定与你的期望不同。每个人都有权利选择自己的生活道路。<br>界限设置：明确自己的界限，不让他人的选择和行为过多地影响你的情绪和决定。<br>表达关心和支持：</p><p>有效沟通：学会倾听和表达自己的感受。在对话中，使用“我”开头的句子，如“我感到……”，而不是直接评价对方的行为。<br>非侵入性支持：在提供帮助时，先询问对方的需求，如“你需要我的帮助吗？”这样可以避免在对方不需要时强加帮助。<br>共存与独立：</p><p>保持自我：在关系中，保持自己的兴趣爱好和独立空间，这样既能维持个人的独立性，也能为关系注入新的活力。<br>共同成长：鼓励和支持对方的成长，同时也关注自己的成长，保持一种平衡的关系动态。<br>你认为这些建议对你有帮助吗？或者你有具体的情况或问题希望进一步探讨？</p><p>我:我太久不是一个人生活了，我有点忘记了一个人是怎么生活了<br>ChatGPT:独自生活可能会感觉陌生甚至有些孤单，但它也是一个重新认识自己、培养独立性的机会。让我们具体探讨一些方法，帮助你重新适应独自生活并找到其中的乐趣和意义。</p><p>重新适应独自生活<br>建立日常习惯：</p><p>制定规律的作息时间：保持规律的睡眠和饮食习惯，这能帮助你保持身体健康和精神稳定。<br>安排每天的计划：列出每天要做的事情，包括工作、学习、锻炼、休闲等，这能让你的生活有条理且富有意义。<br>培养兴趣爱好：</p><p>探索新爱好：尝试一些你一直想做但没有时间或机会尝试的活动，如绘画、摄影、烹饪、音乐等。<br>参与社交活动：虽然独自生活，但不意味着要完全孤立自己，可以参加一些社交活动或兴趣小组，结识新朋友。<br>注重自我关怀：</p><p>冥想和放松：继续进行冥想和跑步，这些活动不仅有助于身体健康，也能帮助你管理情绪，保持内心平静。<br>自我奖励：在完成一些目标或任务后，给自己一些奖励，如看一部喜欢的电影，或者做一顿美味的饭菜。<br>反思与成长：</p><p>记录心情和感受：每天写日记，记录下你的心情、感受和反思，帮助你更好地理解和调整自己。<br>设定成长目标：给自己设定一些短期和长期的目标，无论是职业上的，还是个人发展的，这能让你有动力和方向感。<br>享受独自生活的好处<br>自由与自主：</p><p>时间自由：你可以完全根据自己的节奏和喜好安排时间，不受他人干扰。<br>自主决策：所有的决定都由你自己做主，这能增强你的决策能力和自信心。<br>内在成长：</p><p>自我探索：独自生活是深入了解自己的好机会，你可以更清晰地认识到自己的需求、喜好和目标。<br>独立性增强：通过独自处理生活中的各种事务，你会变得更加独立和坚强。<br>灵活性和适应力：</p><p>适应变化：独自生活能提高你的适应能力，面对变化时更加从容和有韧性。<br>灵活安排：你可以根据自己的情况灵活安排生活，不需要考虑他人的时间和需求。<br>你认为这些建议能帮助你重新适应和享受独自生活吗？或者你有具体的挑战或疑问希望进一步探讨？</p><p>我:谢谢你，现在很晚了，我们下次再聊<br>ChatGPT:好的，很高兴能和你进行这次有意义的对话。希望这些建议对你有所帮助。祝你晚安，我们下次再聊！</p>]]></content>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;突然想到之前在《刺客信条 奥德赛》中苏哥拉底的任务，试试和gpt扮演的苏哥拉底对话&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://chatgpt.com/share/093b02d8-aa98-471d-8fe6-e51b0d1295b9&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;对话内容&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;我:请你扮演苏格拉底和我对话&lt;/p&gt;
+&lt;p&gt;ChatGPT:当然，我很乐意扮演苏格拉底。让我们开始这场对话吧。你可以从任何问题或主题开始。&lt;/p&gt;
+&lt;p&gt;你有什么问题想要讨论或探讨的吗？&lt;/p&gt;
+&lt;p&gt;我:人如何才是独立的&lt;br&gt;&amp;nbsp;</summary>
+    
+    
+    
+    
+    <category term="杂思" scheme="https://mikusugar.me/tags/杂思/"/>
+    
+    <category term="chatgpt" scheme="https://mikusugar.me/tags/chatgpt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2024年5月跑步记录</title>
+    <link href="https://mikusugar.me/2024/06/01/202405_run/"/>
+    <id>https://mikusugar.me/2024/06/01/202405_run/</id>
+    <published>2024-05-31T16:04:00.000Z</published>
+    <updated>2024-05-31T16:04:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>5月总共跑了31公里，5月14号开始跑的。</p><p>很久没有跑步了，跑步会让我有种活着的感觉，尤其是我第一次挑战10公里的时候，我没有想到我真的能做到，跑的时候我就想着，到下一个路灯，到下一个路灯，就这样一路跑了10公里，最后停下的时候我感觉整个人都要升天了一样，头脑感觉特别放松。<img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/06/IMG_A3A8E1602C49-1.jpeg" alt="IMG_A3A8E1602C49-1" style="zoom:25%;"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;5月总共跑了31公里，5月14号开始跑的。&lt;/p&gt;
+&lt;p&gt;很久没有跑步了，跑步会让我有种活着的感觉，尤其是我第一次挑战10公里的时候，我没有想到我真的能做到，跑的时候我就想着，到下一个路灯，到下一个路灯，就这样一路跑了10公里，最后停下的时候我感觉整个人都要升天了一样，头脑</summary>
+      
+    
+    
+    
+    
+    <category term="跑步" scheme="https://mikusugar.me/tags/跑步/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>西藏之旅</title>
+    <link href="https://mikusugar.me/2024/05/17/%E8%A5%BF%E8%97%8F%E4%B9%8B%E6%97%85/"/>
+    <id>https://mikusugar.me/2024/05/17/%E8%A5%BF%E8%97%8F%E4%B9%8B%E6%97%85/</id>
+    <published>2024-05-17T13:37:00.000Z</published>
+    <updated>2024-05-31T16:02:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="序"><a href="#序" class="headerlink" title="序"></a>序</h2><p>西藏，一直很想去看看，记得高中毕业的时候就想坐火车去拉萨看看，但是爸妈不让，估计是为了安全。最近在翻以前写的备忘录，看到六年前列了个单子，里面有很多想去的地方，后面还跟着很多备注，这么多年过去了，备注我都忘记是啥意思，当时用的字母缩写备注，这些地方中就有拉萨，查了查火车票，正好有一趟周五晚上出发，周日早上到，这样我周日晚上再做飞机回来上班，周末特种兵游。</p><p>&nbsp;<a id="more"></a></p><h2 id="启程"><a href="#启程" class="headerlink" title="启程"></a>启程</h2><p>礼拜五下午的时候我在想，我这样做是为了什么，感觉像是在逃避现实，我和朋友聊了聊，朋友说，快乐最重要，管它是不是逃避现实。</p><p>晚上出发去火车站，18号线-&gt;9号线，正好是我一年多以前下班的路线，我在地铁上发呆，我依然在我一年多以前经常坐的那个车厢，我看到了以前的我，我在想如果他知道了现在的我，会怎么想，都不一样了，他那时候怎么也想不到现在的我吧，我好想拍拍那个一身黑的我。</p><p>到了车站，活力仿佛又回来了，我喜欢这种在路上的感觉，我喜欢火车路上摇摇晃晃，轰隆轰隆的声音，这可能让我感觉我还在前进吧。</p><h2 id="路上"><a href="#路上" class="headerlink" title="路上"></a>路上</h2><p>我坐的是Z322次列车，从成都西出发，经停兰州、西宁、德令哈、格尔木，终到拉萨。</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/05/dgECIG.png" alt="dgECIG"></p><h3 id="兰州"><a href="#兰州" class="headerlink" title="兰州"></a>兰州</h3><p>从成都西到兰州路上我是痛苦的，尤其是在兰州停止的时候，感觉整个人都是懵的，甚至想下车去，我为了防止我失去控制，我在社交平台上直接说自己要去拉萨。离开兰州快到西宁这段我现在印象中很模糊了，只记得非常难受，可能是大脑为了保护，现在已经回忆不起痛苦的细节了。</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/05/lOwZSO.png" alt="lOwZSO"></p><h3 id="西宁"><a href="#西宁" class="headerlink" title="西宁"></a>西宁</h3><p>到了西宁，要换高原供氧车型了，我的心情开始好转，我和同车的大叔一起去擦车窗的玻璃，这仿佛是青藏铁路的仪式一样。</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/05/wETfxH.png" alt="wETfxH"></p><p>从西宁出发之后，我看到了青海湖，可惜草还没有长绿，如果长绿了，那应该很美很美。</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/05/anTKDZ.png" alt="anTKDZ"></p><p>看到了一朵奇怪的云。</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/05/orpQy2.png" alt="orpQy2"></p><p>后面草变绿了一些，还有咩咩</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/05/17282y.png" alt="17282y"></p><p>看到了远方的雪山</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/05/mvT8k6.png" alt="mvT8k6"></p><h3 id="德令哈"><a href="#德令哈" class="headerlink" title="德令哈"></a>德令哈</h3><p>到德令哈了，对德令哈最初的印象来自于海子的那首诗。</p><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=28940189&auto=0&height=66"></iframe><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/05/PKjY3H.png" alt="PKjY3H"></p><p>几乎都是戈壁</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/05/oe0SEp.png" alt="oe0SEp"></p><h3 id="格尔木"><a href="#格尔木" class="headerlink" title="格尔木"></a>格尔木</h3><p>到格尔木站了，换了内燃机火车头，接下来要穿越可可西里，翻过唐古拉山。</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/05/8cdzmj.png" alt="8cdzmj"></p><p>先是戈壁，后面开始出现了雪山。</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/05/eflvbe.png" alt="eflvbe"></p><p>雪山越来越近</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/06/image-20240531235003796.png" alt="image-20240531235003796"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/06/image-20240531235020433.png" alt="image-20240531235020433"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/06/image-20240531235051481.png" alt="image-20240531235051481"></p><p>后面来到了可可西里</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/05/image-20240531235112158.png" alt="image-20240531235112158"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/05/t2qjSX.png" alt="t2qjSX"></p><h3 id="唐古拉山的梦"><a href="#唐古拉山的梦" class="headerlink" title="唐古拉山的梦"></a>唐古拉山的梦</h3><p>翻唐古拉山的时候我做了一个梦，梦里面一只很像猫的动物在叫我，我挥挥手，它歪着头看着我，后面走了，我去追，追不上，然后醒了，头非常非常的晕，我大概是高反了，吃了一份葡萄糖补剂后好了一点，手表显示血氧在74%，海拔在五千多，整个头脑非常的昏昏沉沉，后面又睡着了，我又突然梦见了太阳升起来，把整个车厢照的非常亮，太阳非常非常大，我准备拿手机拍下来，我突然醒了，整个车厢一片漆黑</p><h3 id="兰州之后"><a href="#兰州之后" class="headerlink" title="兰州之后"></a>兰州之后</h3><p>我并不太能记得兰州之后的心理，我几乎全程都在走廊的窗户上发呆，我听了很长时间《空帆船》</p><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=500665328&auto=0&height=66"></iframe><p>我一直看着窗户外面，我想了很多很多，但是我现在一点也不记得我想了什么，可能是高反让我的记忆缺失了？我逐渐被不断出现的景色转移了注意力，我很想去看雪山，但是我一直没有机会去看，现实中见到雪山和在视频里看到的感觉是完全不一样的，太震撼了（青藏铁路真他妈牛逼），我显得很渺小，我目不转睛的看着一座又一座的雪山，我忘记了我的想法，我忘记了时间，我后悔当时没有记录下自己的想法，我现在想不起来了，可能海拔越高，脑子缺氧，没保存下来。</p><h2 id="拉萨"><a href="#拉萨" class="headerlink" title="拉萨"></a>拉萨</h2><p>在拉萨的时候早上发现大部分都是川菜馆，找了好久在布达拉宫旁边找到一家藏式早餐店，酥油茶5块钱，油饼2块钱，物价比我想象中便宜一点。</p><p>后面去爬了布达拉宫，花了200块钱门票，感觉里面并不好看，西藏这么贫瘠的地方，里面的和尚却用了那么多珠宝黄金。。。西藏能净化心灵的是缺氧和风景，缺氧的时候脑子什么也想不了，我现在还挺想回到那种状态。</p><p>早知道直接在广场看看就去看自然风景好了。</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/05/IMG_2197.png" alt="IMG_2197"></p><h2 id="回程"><a href="#回程" class="headerlink" title="回程"></a>回程</h2><p>在飞机上一路几乎都可以看到雪山🏔️</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/06/IMG_2240.png" alt="IMG_2240"></p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/06/IMG_2259.png" alt="IMG_2259"></p>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;序&quot;&gt;&lt;a href=&quot;#序&quot; class=&quot;headerlink&quot; title=&quot;序&quot;&gt;&lt;/a&gt;序&lt;/h2&gt;&lt;p&gt;西藏，一直很想去看看，记得高中毕业的时候就想坐火车去拉萨看看，但是爸妈不让，估计是为了安全。最近在翻以前写的备忘录，看到六年前列了个单子，里面有很多想去的地方，后面还跟着很多备注，这么多年过去了，备注我都忘记是啥意思，当时用的字母缩写备注，这些地方中就有拉萨，查了查火车票，正好有一趟周五晚上出发，周日早上到，这样我周日晚上再做飞机回来上班，周末特种兵游。&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;</summary>
+    
+    
+    
+    
+    <category term="游历" scheme="https://mikusugar.me/tags/游历/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2023-2024上半年</title>
+    <link href="https://mikusugar.me/2024/05/14/2023-2024.5/"/>
+    <id>https://mikusugar.me/2024/05/14/2023-2024.5/</id>
+    <published>2024-05-14T01:53:10.000Z</published>
+    <updated>2024-05-14T01:53:10.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="2023"><a href="#2023" class="headerlink" title="2023"></a>2023</h2><p>2023 我以为是我开始慢慢变好的一年。在这一年里经历了很多</p><ul><li><p>考取了软件设计师证书</p></li><li><p>养了一只小猫</p></li><li><p>拿到了年度优秀员工<br>。。。。</p></li></ul><p>还有很多很多事情，我觉得我的生活正在越来越好。我的内心深处开始害怕，我一直感觉生活就是像西西弗斯推着石头往上走，我推的越来越高了，我害怕石头落下来。</p><h2 id="2024-上"><a href="#2024-上" class="headerlink" title="2024 上"></a>2024 上</h2><p>石头突然滚下来了，碾碎了，有很多话想说，却什么都说不出来，</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;2023&quot;&gt;&lt;a href=&quot;#2023&quot; class=&quot;headerlink&quot; title=&quot;2023&quot;&gt;&lt;/a&gt;2023&lt;/h2&gt;&lt;p&gt;2023 我以为是我开始慢慢变好的一年。在这一年里经历了很多&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;考取了软件设计师证书&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    
+    <category term="一年" scheme="https://mikusugar.me/tags/一年/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mac导入pfx证书失败</title>
+    <link href="https://mikusugar.me/2024/04/18/mac_import_pfx_error/"/>
+    <id>https://mikusugar.me/2024/04/18/mac_import_pfx_error/</id>
+    <published>2024-04-18T01:55:00.000Z</published>
+    <updated>2024-04-18T01:55:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="mac导入pfx证书失败"><a href="#mac导入pfx证书失败" class="headerlink" title="mac导入pfx证书失败"></a>mac导入pfx证书失败</h1><p>在导入pfx证书的时候输入密码后一直显示密码错误。尝试通过openssl命令先把密码去除了<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl pkcs12 -in xxx.pfx -clcerts -nokeys -out certificate.crt</span><br></pre></td></tr></table></figure></p><p>结果还是不行：<br><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2024/04/TTk6GW.png" alt="发生错误无法导入"><br>后来发现是openssl版本的原因,14系统的openssl默认是3.x版本，导出的crt不兼容。 通过下面的命令切换openssl版本：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH="/opt/homebrew/opt/openssl@1.1/bin:$PATH"</span><br></pre></td></tr></table></figure></p><p>再次执行下面这条命令后crt文件可以正常导入<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl pkcs12 -in xxx.pfx -clcerts -nokeys -out certificate.crt</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;mac导入pfx证书失败&quot;&gt;&lt;a href=&quot;#mac导入pfx证书失败&quot; class=&quot;headerlink&quot; title=&quot;mac导入pfx证书失败&quot;&gt;&lt;/a&gt;mac导入pfx证书失败&lt;/h1&gt;&lt;p&gt;在导入pfx证书的时候输入密码后一直显示密码错误。尝试通过o</summary>
+      
+    
+    
+    
+    
+    <category term="mac" scheme="https://mikusugar.me/tags/mac/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>统计git提交</title>
+    <link href="https://mikusugar.me/2023/11/20/git_count/"/>
+    <id>https://mikusugar.me/2023/11/20/git_count/</id>
+    <published>2023-11-20T07:55:00.000Z</published>
+    <updated>2023-11-21T02:24:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="统计git提交"><a href="#统计git提交" class="headerlink" title="统计git提交"></a>统计git提交</h1><p>因为工作需要，需要统计一个时间段指定用户的git提交的次数，代码改变的行数，以及依据commit特殊前缀来统计次数。脚本如下：<br>&nbsp;<a id="more"></a></p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 获取输入参数</span><br><span class="line">email=$1 </span><br><span class="line"><span class="meta">#</span>example syfangjie@live.cn</span><br><span class="line">start_date=$2</span><br><span class="line"><span class="meta">#</span>example 2023-01-01</span><br><span class="line">end_date=$3</span><br><span class="line"><span class="meta">#</span>example 2023-10-31</span><br><span class="line">REPO_PATH=$4</span><br><span class="line"><span class="meta">#</span>example "/Users/mikusugar/code/test"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 进入仓库目录</span><br><span class="line">cd $REPO_PATH || exit</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 统计提交次数</span><br><span class="line">commit_count=$(git log --author="$email" --since="$start_date" --until="$end_date" --pretty=oneline | wc -l)</span><br><span class="line"><span class="meta">#</span> 统计改变行数</span><br><span class="line">line_count=$(git log --author="$email" --since="$start_date" --until="$end_date" --pretty=tformat: --numstat | awk '&#123; add += $1 - $2 &#125; END &#123; print add &#125;')</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 统计feat提交次数 前缀为feat的</span><br><span class="line">feat_count=$(git log --author="$email" --since="$start_date" --until="$end_date" --pretty=oneline | grep -c "feat")</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 统计fix提交次数 前缀为fix的</span><br><span class="line">fix_count=$(git log --author="$email" --since="$start_date" --until="$end_date" --pretty=oneline | grep -c "fix")</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo "用户 $email 在当前git仓库的:"</span><br><span class="line">echo "提交次数为 $commit_count 次"</span><br><span class="line">echo "对代码的改变行数为 $line_count 行"</span><br><span class="line">echo "feat 数量 $feat_count 次"</span><br><span class="line">echo "fix 数量 $fix_count 次"</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;统计git提交&quot;&gt;&lt;a href=&quot;#统计git提交&quot; class=&quot;headerlink&quot; title=&quot;统计git提交&quot;&gt;&lt;/a&gt;统计git提交&lt;/h1&gt;&lt;p&gt;因为工作需要，需要统计一个时间段指定用户的git提交的次数，代码改变的行数，以及依据commit特殊前缀来统计次数。脚本如下：&lt;br&gt;&amp;nbsp;</summary>
+    
+    
+    
+    
+    <category term="git" scheme="https://mikusugar.me/tags/git/"/>
+    
+    <category term="脚本" scheme="https://mikusugar.me/tags/脚本/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java Random 的多线程效率问题</title>
+    <link href="https://mikusugar.me/2023/08/21/ThreadLocalRandom/"/>
+    <id>https://mikusugar.me/2023/08/21/ThreadLocalRandom/</id>
+    <published>2023-08-21T02:48:10.000Z</published>
+    <updated>2023-08-21T02:48:10.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Java-Random-的多线程效率问题"><a href="#Java-Random-的多线程效率问题" class="headerlink" title="Java Random 的多线程效率问题"></a>Java Random 的多线程效率问题</h1><h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>最近在写一个算法的多线程计算时发现效率比单线程还慢，单线程大概计算300S，8个线程却计算了900S，这很不正常。一开始以为是锁的原因，于是把算法里面所有的锁都去掉了（该算法估算几乎不影响最后结果准确性）,锁去掉之后还是很慢，时间几乎没有变化。最后打开jconsole查看线程，发现计算的线程显示 <code>阻止1 等待6</code>之类的。观察调用栈发现了卡在random的调用上。</p><h2 id="多线程random"><a href="#多线程random" class="headerlink" title="多线程random"></a>多线程random</h2><p>Java的random是多线程是安全的，但是Java的random多线程效率存在问题，为此jdk在1.7之后推出了ThreadLocalRandom，它通过一个线程对应一个专属的random实例解决了多线程下random效率的问题。</p><p>它的用法如下：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ThreadLocalRandom.current()....</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Java-Random-的多线程效率问题&quot;&gt;&lt;a href=&quot;#Java-Random-的多线程效率问题&quot; class=&quot;headerlink&quot; title=&quot;Java Random 的多线程效率问题&quot;&gt;&lt;/a&gt;Java Random 的多线程效率问题&lt;/h1&gt;&lt;</summary>
+      
+    
+    
+    
+    
+    <category term="Java" scheme="https://mikusugar.me/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Alias抽样算法</title>
+    <link href="https://mikusugar.me/2023/07/31/AliasSampling/"/>
+    <id>https://mikusugar.me/2023/07/31/AliasSampling/</id>
+    <published>2023-07-31T06:37:10.000Z</published>
+    <updated>2023-07-31T06:37:10.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Alias-算法抽样"><a href="#Alias-算法抽样" class="headerlink" title="Alias 算法抽样"></a>Alias 算法抽样</h1><h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>对于一个只有两种情况的情景抽样，很简单，例如A的概率是0.4，B的概率是0.6，那么只需要随机数小于0.4就是A，否则是B。</p><p>如果扩展多个情况，例如A，B，C的概率分别是0.2，0.3，0.5，一般情况O(1)的方法是生成一个数组[A,A,B,B,B,C,C,C,C,C,C],对数组进行随机抽取，这样比较耗费内存。</p><p>Alias也可以在O(1)的方法下取样，并且内存需要更小。<br>&nbsp;<a id="more"></a><br>还是以上面的A,B,C为例子</p><ul><li>把A，B，C的概率 X 3 得到[0.6, 0.9, 1.5]</li><li>把它们拆分拼成3组，例如，第一组 0.6的A+0.4的B，第二组0.5的B加0.5的C，第三组1.0的C。</li><li>随机抽取三组中的一组后，就类似于只有两种情况，再随机抽取就能取到。</li></ul><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">import random</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def alias_setup(probs):</span><br><span class="line">    K = len(probs)</span><br><span class="line">    q = [0] * K</span><br><span class="line">    J = [0] * K</span><br><span class="line"></span><br><span class="line">    # Sort the data into the outcomes with probabilities</span><br><span class="line">    # that are larger and smaller than 1/K.</span><br><span class="line">    smaller = []</span><br><span class="line">    larger = []</span><br><span class="line">    for kk, prob in enumerate(probs):</span><br><span class="line">        q[kk] = K * prob</span><br><span class="line">        if q[kk] &lt; 1.0:</span><br><span class="line">            smaller.append(kk)</span><br><span class="line">        else:</span><br><span class="line">            larger.append(kk)</span><br><span class="line"></span><br><span class="line">    # Loop though and create little binary mixtures that</span><br><span class="line">    # appropriately allocate the larger outcomes over the</span><br><span class="line">    # overall uniform mixture.</span><br><span class="line">    while len(smaller) &gt; 0 and len(larger) &gt; 0:</span><br><span class="line">        small = smaller.pop()</span><br><span class="line">        large = larger.pop()</span><br><span class="line"></span><br><span class="line">        J[small] = large</span><br><span class="line">        q[large] = q[large] - (1.0 - q[small])</span><br><span class="line"></span><br><span class="line">        if q[large] &lt; 1.0:</span><br><span class="line">            smaller.append(large)</span><br><span class="line">        else:</span><br><span class="line">            larger.append(large)</span><br><span class="line"></span><br><span class="line">    return J, q</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def alias_draw(J, q):</span><br><span class="line">    K = len(J)</span><br><span class="line"></span><br><span class="line">    # Draw from the overall uniform mixture.</span><br><span class="line">    kk = int(random.random() * K)</span><br><span class="line"></span><br><span class="line">    # Draw from the binary mixture, either keeping the</span><br><span class="line">    # small one, or choosing the associated larger one.</span><br><span class="line">    if random.random() &lt; q[kk]:</span><br><span class="line">        return kk</span><br><span class="line">    else:</span><br><span class="line">        return J[kk]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">K = 5</span><br><span class="line">N = 1000</span><br><span class="line"></span><br><span class="line"># Get a random probability vector.</span><br><span class="line">probs = [random.random() for i in range(K)]</span><br><span class="line"></span><br><span class="line"># Normalize the probability vector</span><br><span class="line">probs = [i / sum(probs) for i in probs]</span><br><span class="line"></span><br><span class="line"># Construct the table.</span><br><span class="line">J, q = alias_setup(probs)</span><br><span class="line"></span><br><span class="line"># Generate variates.</span><br><span class="line">X = [0] * N</span><br><span class="line">for nn in range(N):</span><br><span class="line">    X[nn] = alias_draw(J, q)</span><br><span class="line">print(probs)</span><br><span class="line">print(X)</span><br></pre></td></tr></table></figure><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://lips.cs.princeton.edu/the-alias-method-efficient-sampling-with-many-discrete-outcomes/" target="_blank" rel="noopener">https://lips.cs.princeton.edu/the-alias-method-efficient-sampling-with-many-discrete-outcomes/</a></p>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;Alias-算法抽样&quot;&gt;&lt;a href=&quot;#Alias-算法抽样&quot; class=&quot;headerlink&quot; title=&quot;Alias 算法抽样&quot;&gt;&lt;/a&gt;Alias 算法抽样&lt;/h1&gt;&lt;h2 id=&quot;简述&quot;&gt;&lt;a href=&quot;#简述&quot; class=&quot;headerlink&quot; title=&quot;简述&quot;&gt;&lt;/a&gt;简述&lt;/h2&gt;&lt;p&gt;对于一个只有两种情况的情景抽样，很简单，例如A的概率是0.4，B的概率是0.6，那么只需要随机数小于0.4就是A，否则是B。&lt;/p&gt;
+&lt;p&gt;如果扩展多个情况，例如A，B，C的概率分别是0.2，0.3，0.5，一般情况O(1)的方法是生成一个数组[A,A,B,B,B,C,C,C,C,C,C],对数组进行随机抽取，这样比较耗费内存。&lt;/p&gt;
+&lt;p&gt;Alias也可以在O(1)的方法下取样，并且内存需要更小。&lt;br&gt;&amp;nbsp;</summary>
+    
+    
+    
+    
+    <category term="算法" scheme="https://mikusugar.me/tags/算法/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>编写networkx插件</title>
+    <link href="https://mikusugar.me/2023/07/14/nx_plugin/"/>
+    <id>https://mikusugar.me/2023/07/14/nx_plugin/</id>
+    <published>2023-07-14T05:53:10.000Z</published>
+    <updated>2023-07-14T06:37:42.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="编写networkx插件"><a href="#编写networkx插件" class="headerlink" title="编写networkx插件"></a>编写networkx插件</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>networkx的时候发现在3.0版本支持实验性的插件支持 <a href="https://github.com/networkx/networkx/pull/6000" target="_blank" rel="noopener">https://github.com/networkx/networkx/pull/6000</a> ,<br>支持替换networkx的计算后端，目前比较成熟的后端插件是graphblas <a href="https://github.com/python-graphblas/graphblas-algorithms/" target="_blank" rel="noopener">https://github.com/python-graphblas/graphblas-algorithms/</a> ，<br>通过这个插件，可以同时结合networkx<br>API的易用性以及graphblas的高性能。networkx插件的原理是利用了python的装饰器。<br>&nbsp;<a id="more"></a><br>装饰器参考 <a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017451662295584" target="_blank" rel="noopener">https://www.liaoxuefeng.com/wiki/1016959663602400/1017451662295584</a></p><p>networkx里面装饰器的核心代码在 networkx/classes/backends.py:130可以看到下面代码中，它会检查graph对象有没有 _<br>_networkx_plugin__ 如果有并且这个插件名已经注册在networkx，那么networkx中就会加载插件后端来进行计算。</p><p><img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed/uPic/2023/07/gkpiqb.jpg" alt="gkpiqb"></p><p>关于如何编写插件替换networkx的文档资料，网络上还是比较少，在这里记录一下编写插件的方法。</p><h2 id="编写插件"><a href="#编写插件" class="headerlink" title="编写插件"></a>编写插件</h2><h3 id="名字"><a href="#名字" class="headerlink" title="名字"></a>名字</h3><p>为你需要编写的插件起一个名字，networkx会用名字去调用插件，本文用<code>nxdemo</code>这个名字说明。</p><h3 id="图对象"><a href="#图对象" class="headerlink" title="图对象"></a>图对象</h3><p>定义一个你的插件用来计算的图对象，在这个类里面，需要定义插件名字</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Graph</span>:</span></span><br><span class="line">    __networkx_plugin__ = <span class="string">"nxdemo"</span></span><br></pre></td></tr></table></figure><h3 id="调度员"><a href="#调度员" class="headerlink" title="调度员"></a>调度员</h3><p>定义一个调度类。</p><p>调度类里面定义nx的函数名指向自定义的算法实现，例如弱联通分量的指向:</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dispatcher</span>:</span></span><br><span class="line">    weakly_connected_components = nx_plugin_demo.algo.weakly_connected_components</span><br></pre></td></tr></table></figure><p>调度类里面可以接着写插件的图对象与nx的图对象转换函数</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convert_from_nx</span><span class="params">(G: nx.Graph, weight=None, name=None)</span>:</span></span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"> @staticmethod</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convert_to_nx</span><span class="params">(graph)</span>:</span></span><br></pre></td></tr></table></figure><p>最后在entry_points(setup.py)里面定义插件调度员位置，这里需要用到插件名字</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> setup</span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">    <span class="string">''''''</span></span><br><span class="line">entry_points = &#123;</span><br><span class="line">    <span class="string">'networkx.plugins'</span>: [</span><br><span class="line">        <span class="string">'nxdemo = nx_plugin_demo.Dispatcher:Dispatcher'</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure><h2 id="使用插件"><a href="#使用插件" class="headerlink" title="使用插件"></a>使用插件</h2><p>执行pip安装编写的插件。</p><blockquote><p>networkx依据传入图对象的类型判断使用哪种后端进行计算</p></blockquote><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> networkx <span class="keyword">as</span> nx</span><br><span class="line"><span class="keyword">from</span> nx_plugin_demo.Dispatcher <span class="keyword">import</span> Dispatcher</span><br><span class="line"></span><br><span class="line">G = nx.DiGraph()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加节点</span></span><br><span class="line">G.add_node(<span class="number">1</span>)</span><br><span class="line">G.add_node(<span class="number">2</span>)</span><br><span class="line">G.add_node(<span class="number">3</span>)</span><br><span class="line">G.add_node(<span class="number">4</span>)</span><br><span class="line">G.add_node(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加边</span></span><br><span class="line">G.add_edge(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">G.add_edge(<span class="number">2</span>, <span class="number">1</span>)</span><br><span class="line">G.add_edge(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">G.add_edge(<span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 转换图对象</span></span><br><span class="line">G2 = Dispatcher.convert_from_nx(G)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用自定义的弱联通分量计算</span></span><br><span class="line">res = nx.weakly_connected_components(G2)</span><br><span class="line">print(res)</span><br><span class="line"></span><br><span class="line"><span class="comment"># networkx原本的弱联通分量计算</span></span><br><span class="line">res2 = list(nx.weakly_connected_components(G))</span><br><span class="line">print(res2)</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;编写networkx插件&quot;&gt;&lt;a href=&quot;#编写networkx插件&quot; class=&quot;headerlink&quot; title=&quot;编写networkx插件&quot;&gt;&lt;/a&gt;编写networkx插件&lt;/h1&gt;&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;networkx的时候发现在3.0版本支持实验性的插件支持 &lt;a href=&quot;https://github.com/networkx/networkx/pull/6000&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/networkx/networkx/pull/6000&lt;/a&gt; ,&lt;br&gt;支持替换networkx的计算后端，目前比较成熟的后端插件是graphblas &lt;a href=&quot;https://github.com/python-graphblas/graphblas-algorithms/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/python-graphblas/graphblas-algorithms/&lt;/a&gt; ，&lt;br&gt;通过这个插件，可以同时结合networkx&lt;br&gt;API的易用性以及graphblas的高性能。networkx插件的原理是利用了python的装饰器。&lt;br&gt;&amp;nbsp;</summary>
+    
+    
+    
+    
+    <category term="图计算" scheme="https://mikusugar.me/tags/图计算/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python递归爆栈</title>
+    <link href="https://mikusugar.me/2023/07/03/py_recursion/"/>
+    <id>https://mikusugar.me/2023/07/03/py_recursion/</id>
+    <published>2023-07-03T06:15:00.000Z</published>
+    <updated>2023-07-03T06:15:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="python递归爆栈"><a href="#python递归爆栈" class="headerlink" title="python递归爆栈"></a>python递归爆栈</h1><p>python 递归函数默认递归深度比较小（在本机测试为1000），可以通过 sys.getrecursionlimit() 函数打印出来。<br>超过 sys.getrecursionlimit()的值就会报错。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印本机的值</span></span><br><span class="line">print(sys.getrecursionlimit())</span><br><span class="line"><span class="comment"># 设置该值</span></span><br><span class="line">sys.setrecursionlimit(<span class="number">100000</span>)</span><br></pre></td></tr></table></figure><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://pegasuswang.github.io/python_data_structures_and_algorithms/19_python%E5%86%85%E7%BD%AE%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95%E5%92%8C%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/builtins/#_1" target="_blank" rel="noopener">https://pegasuswang.github.io/python_data_structures_and_algorithms/19_python%E5%86%85%E7%BD%AE%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95%E5%92%8C%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/builtins/#_1</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;python递归爆栈&quot;&gt;&lt;a href=&quot;#python递归爆栈&quot; class=&quot;headerlink&quot; title=&quot;python递归爆栈&quot;&gt;&lt;/a&gt;python递归爆栈&lt;/h1&gt;&lt;p&gt;python 递归函数默认递归深度比较小（在本机测试为1000），可以通过 </summary>
+      
+    
+    
+    
+    
+    <category term="python" scheme="https://mikusugar.me/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>图（稀疏矩阵）的压缩存储 CSR</title>
+    <link href="https://mikusugar.me/2023/06/30/csr/"/>
+    <id>https://mikusugar.me/2023/06/30/csr/</id>
+    <published>2023-06-30T07:00:00.000Z</published>
+    <updated>2023-06-30T07:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="图（稀疏矩阵）的压缩存储-CSR"><a href="#图（稀疏矩阵）的压缩存储-CSR" class="headerlink" title="图（稀疏矩阵）的压缩存储 CSR"></a>图（稀疏矩阵）的压缩存储 CSR</h1><h2 id="矩阵的压缩"><a href="#矩阵的压缩" class="headerlink" title="矩阵的压缩"></a>矩阵的压缩</h2><p>CSR 是对稀疏矩阵进行压缩处理，把矩阵压缩成三个数组,值数组（values）、行索引数组（col_index）和列偏移数组（row_offsets）。</p><ul><li>值数组：按照矩阵的行顺序依次存储非零元素的值</li><li>行索引数组：行索引数组存储了每个非零元素所在的行号 (col_index[i]等于values[i]元素的列数)</li><li>列偏移数组：存储了每一行的非零元素在值数组中的起始位置 （第i个元素记录了前i-1行包含的非零元素的数量）</li></ul><p>&nbsp;<a id="more"></a></p><p>下面举个例子</p><p>对于矩阵：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[[4, 0, 0, 2],</span><br><span class="line">  [0, 1, 0, 0],</span><br><span class="line">  [0, 0, 5, 7],</span><br><span class="line">  [6, 3, 0, 8]]</span><br></pre></td></tr></table></figure><ul><li>values: [4, 2, 1, 5, 7, 6, 3, 8]</li><li>col_index: [0, 3, 1, 2, 3, 0, 1, 3]</li><li>row_offsets: [0, 2, 3, 5, 8]</li></ul><h2 id="矩阵的解压"><a href="#矩阵的解压" class="headerlink" title="矩阵的解压"></a>矩阵的解压</h2><p>通过row_offsets找到对应的范围，通过col_index确定列，通过values取出值。</p><p>以一个例子说明，还是上面的矩阵，假设取<code>[1][1]</code>的值</p><ul><li>通过row_offset找到范围 为 [row_offsets[1],row_offset[1+1])即是[2,3)</li><li>遍历的col_index的[2,3)，找到col_index[i]==1,即i==2</li><li>直接返回values[i]即values[2],也就是1</li></ul><p>如果第二步的时候找不到，那么就直接返回0。</p><p>对于代码来说就是</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, row: int, col: int)</span> -&gt; int:</span></span><br><span class="line">    start = self.row_offsets[row]</span><br><span class="line">    end = self.row_offsets[row + <span class="number">1</span>]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(start, end):</span><br><span class="line">        <span class="keyword">if</span> self.col_index[i] == col:</span><br><span class="line">            <span class="keyword">return</span> self.values[i]</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure><h2 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> List</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CSR</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, matrix: List[List[int]])</span>:</span></span><br><span class="line">        <span class="comment"># 矩阵的行顺序依次存储非零元素的值</span></span><br><span class="line">        self.values = []</span><br><span class="line">        <span class="comment"># 行索引数组存储了每个非零元素所在的行号</span></span><br><span class="line">        self.col_index = []</span><br><span class="line">        <span class="comment"># 列偏移数组存储了每一行的非零元素在值数组中的起始位置</span></span><br><span class="line">        self.row_offsets = [<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">        self._column_len = len(matrix[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(matrix)):</span><br><span class="line">            row_offset = self.row_offsets[<span class="number">-1</span>]</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>, len(matrix[i])):</span><br><span class="line">                <span class="keyword">if</span> matrix[i][j] != <span class="number">0</span>:</span><br><span class="line">                    row_offset += <span class="number">1</span></span><br><span class="line">                    self.values.append(matrix[i][j])</span><br><span class="line">                    self.col_index.append(j)</span><br><span class="line">            self.row_offsets.append(row_offset)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, row: int, col: int)</span> -&gt; int:</span></span><br><span class="line"></span><br><span class="line">        start = self.row_offsets[row]</span><br><span class="line">        end = self.row_offsets[row + <span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(start, end):</span><br><span class="line">            <span class="keyword">if</span> self.col_index[i] == col:</span><br><span class="line">                <span class="keyword">return</span> self.values[i]</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">column_len</span><span class="params">(self)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">return</span> self._column_len</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">row_len</span><span class="params">(self)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.row_offsets) - <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">m = [[<span class="number">4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span>],</span><br><span class="line">     [<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">     [<span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">7</span>],</span><br><span class="line">     [<span class="number">6</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">8</span>]]</span><br><span class="line">csr = CSR(m)</span><br><span class="line">print(<span class="string">'values:'</span>)</span><br><span class="line">print(csr.values)</span><br><span class="line">print(<span class="string">'col_index:'</span>)</span><br><span class="line">print(csr.col_index)</span><br><span class="line">print(<span class="string">'row_offsets:'</span>)</span><br><span class="line">print(csr.row_offsets)</span><br><span class="line"></span><br><span class="line">print(<span class="string">"decompression："</span>)</span><br><span class="line">d_m = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, csr.row_len()):</span><br><span class="line">    a = []</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>, csr.column_len()):</span><br><span class="line">        a.append(csr.get(i, j))</span><br><span class="line">    d_m.append(a)</span><br><span class="line">print(d_m)</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;图（稀疏矩阵）的压缩存储-CSR&quot;&gt;&lt;a href=&quot;#图（稀疏矩阵）的压缩存储-CSR&quot; class=&quot;headerlink&quot; title=&quot;图（稀疏矩阵）的压缩存储 CSR&quot;&gt;&lt;/a&gt;图（稀疏矩阵）的压缩存储 CSR&lt;/h1&gt;&lt;h2 id=&quot;矩阵的压缩&quot;&gt;&lt;a href=&quot;#矩阵的压缩&quot; class=&quot;headerlink&quot; title=&quot;矩阵的压缩&quot;&gt;&lt;/a&gt;矩阵的压缩&lt;/h2&gt;&lt;p&gt;CSR 是对稀疏矩阵进行压缩处理，把矩阵压缩成三个数组,值数组（values）、行索引数组（col_index）和列偏移数组（row_offsets）。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;值数组：按照矩阵的行顺序依次存储非零元素的值&lt;/li&gt;
+&lt;li&gt;行索引数组：行索引数组存储了每个非零元素所在的行号 (col_index[i]等于values[i]元素的列数)&lt;/li&gt;
+&lt;li&gt;列偏移数组：存储了每一行的非零元素在值数组中的起始位置 （第i个元素记录了前i-1行包含的非零元素的数量）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&amp;nbsp;</summary>
+    
+    
+    
+    
+    <category term="算法" scheme="https://mikusugar.me/tags/算法/"/>
+    
+    <category term="图计算" scheme="https://mikusugar.me/tags/图计算/"/>
+    
+  </entry>
+  
+</feed>

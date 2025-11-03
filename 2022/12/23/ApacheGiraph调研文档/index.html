@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/headimg.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/headimg.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/headimg.png?v=7.0.1">
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="apache giraph 调研文档[TOC] 1. 背景介绍Apache Giraph是一个为高可扩展性而构建的迭代图形处理系统。Giraph起源于Pregel的开源对应架构，Pregel是谷歌开发的图形处理架构，并在2010年的一篇论文中进行了描述。这两个系统的灵感都来自Leslie Valiant引入的分布式计算的批量同步并行模型。Giraph在基本Pregel模型之外添加了几个功能，包括主">
+<meta name="keywords" content="图计算,giraph">
+<meta property="og:type" content="article">
+<meta property="og:title" content="apache giraph 调研文档">
+<meta property="og:url" content="https://mikusugar.me/2022/12/23/ApacheGiraph调研文档/index.html">
+<meta property="og:site_name" content="追赶风车">
+<meta property="og:description" content="apache giraph 调研文档[TOC] 1. 背景介绍Apache Giraph是一个为高可扩展性而构建的迭代图形处理系统。Giraph起源于Pregel的开源对应架构，Pregel是谷歌开发的图形处理架构，并在2010年的一篇论文中进行了描述。这两个系统的灵感都来自Leslie Valiant引入的分布式计算的批量同步并行模型。Giraph在基本Pregel模型之外添加了几个功能，包括主">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2022-12-23T03:18:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="apache giraph 调研文档">
+<meta name="twitter:description" content="apache giraph 调研文档[TOC] 1. 背景介绍Apache Giraph是一个为高可扩展性而构建的迭代图形处理系统。Giraph起源于Pregel的开源对应架构，Pregel是谷歌开发的图形处理架构，并在2010年的一篇论文中进行了描述。这两个系统的灵感都来自Leslie Valiant引入的分布式计算的批量同步并行模型。Giraph在基本Pregel模型之外添加了几个功能，包括主">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="追赶风车" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://mikusugar.me/2022/12/23/ApacheGiraph调研文档/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>apache giraph 调研文档 | 追赶风车</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">追赶风车</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>🏠首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>🏷️标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>📖归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-running_page">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/running_page/" rel="section"><i class="menu-item-icon fa fa-fw fa-heart"></i> <br>🏃跑步</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>🧑🏻‍关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-navigation">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/SugarHome/cn/index.html" rel="section"><i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>🧭导航</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+  
+  
+
+  
+
+  <a href="https://github.com/MikuSugar" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" style="fill: #222; color: #fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a>
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mikusugar.me/2022/12/23/ApacheGiraph调研文档/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="三苦糖">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/headimg.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="追赶风车">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">apache giraph 调研文档
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2022-12-23 11:18:00" itemprop="dateCreated datePublished" datetime="2022-12-23T11:18:00+08:00">2022-12-23</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2022/12/23/ApacheGiraph调研文档/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2022/12/23/ApacheGiraph调研文档/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="apache-giraph-调研文档"><a href="#apache-giraph-调研文档" class="headerlink" title="apache giraph 调研文档"></a>apache giraph 调研文档</h1><p>[TOC]</p>
+<h2 id="1-背景介绍"><a href="#1-背景介绍" class="headerlink" title="1. 背景介绍"></a>1. 背景介绍</h2><p>Apache Giraph是一个为高可扩展性而构建的迭代图形处理系统。Giraph起源于Pregel的开源对应架构，Pregel是谷歌开发的图形处理架构，并在2010年的一篇论文中进行了描述。这两个系统的灵感都来自Leslie Valiant引入的分布式计算的批量同步并行模型。Giraph在基本Pregel模型之外添加了几个功能，包括主计算、分片聚合器、面向边缘的输入、核心外计算等。<br>&nbsp;<a id="more"></a></p>
+<h2 id="2-giraph-项目结构"><a href="#2-giraph-项目结构" class="headerlink" title="2. giraph 项目结构"></a>2. giraph 项目结构</h2><p>下面是项目目录中的主要目录介绍。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">- giraph #项目根目录</span><br><span class="line">	- giraph-block-app #giraph block api 的实现，不在本次调研范围内</span><br><span class="line">	- giraph-core #giraph  pregel计算的核心实现，本次调研主要关注范围</span><br><span class="line">		-src/main/java</span><br><span class="line">			- com.yammer.metrics.core #一些空的指标实现</span><br><span class="line">			- org.apache.giraph</span><br><span class="line"> 				├── Algorithm.java #内置算法的名字注释</span><br><span class="line"> 				├── GiraphRunner.java #提交在hadoop上运行的任务入口</span><br><span class="line"> 				├── aggregators #giraph的聚合器相关</span><br><span class="line"> 				├── benchmark #基准测试</span><br><span class="line"> 				├── bsp #bsp的对象包</span><br><span class="line"> 				├── combiner #消息的Combiner包</span><br><span class="line"> 				├── comm #通信相关的包</span><br><span class="line"> 				├── conf #配置相关的包</span><br><span class="line"> 				├── counters #处理hadoop记数的包</span><br><span class="line"> 				├── edge #图的边的包</span><br><span class="line"> 				├── factories #工厂包，用于创建各种类型</span><br><span class="line"> 				├── function #函数接口包，</span><br><span class="line"> 				├── graph #与图形相关的包，关键的计算接口Computation也在这里</span><br><span class="line"> 				├── io #io相关的包</span><br><span class="line"> 				├── job #job启动中涉及的包</span><br><span class="line"> 				├── jython #jython集成包</span><br><span class="line"> 				├── mapping #主要是mappingstore</span><br><span class="line"> 				├── master #与master有关的对象包</span><br><span class="line"> 				├── metrics #指标相关的包</span><br><span class="line"> 				├── ooc #核心外围的包</span><br><span class="line"> 				├── partition #分区相关的对象包</span><br><span class="line"> 				├── reducers #reduce 相关的包</span><br><span class="line"> 				├── scripting #giraph 脚本相关的包</span><br><span class="line"> 				├── time #time相关的包</span><br><span class="line"> 				├── types #类型转换相关的包</span><br><span class="line"> 				├── utils #工具类</span><br><span class="line"> 				├── worker #计算节点work相关的包</span><br><span class="line"> 				├── writable #kryo和tuple相关的包</span><br><span class="line"> 				├── yarn #hadoop yarn相关的包</span><br><span class="line"> 				└── zk #zookeeper相关的包</span><br><span class="line">	- giraph-examples 一些例子代码，和可供调试的单元测试</span><br></pre></td></tr></table></figure>
+<h2 id="3-giraph-编译调试"><a href="#3-giraph-编译调试" class="headerlink" title="3. giraph 编译调试"></a>3. giraph 编译调试</h2><h3 id="3-1-拉取代码"><a href="#3-1-拉取代码" class="headerlink" title="3.1 拉取代码"></a>3.1 拉取代码</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:apache/giraph.git</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-编译打包"><a href="#3-2-编译打包" class="headerlink" title="3.2 编译打包"></a>3.2 编译打包</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn -DskipTests=true package -P hadoop_2,hadoop_trunk</span><br></pre></td></tr></table></figure>
+<h3 id="3-3-调试"><a href="#3-3-调试" class="headerlink" title="3.3 调试"></a>3.3 调试</h3><p>本次调研只描述单机通过giraph-examples中的单元测试进行调试。</p>
+<ul>
+<li>idea maven 的配置文件勾选hadoop_2,hadoop_trunk</li>
+<li>以<strong>org.apache.giraph.examples.MaxComputationTest</strong>为例：<ul>
+<li>如需调试任务提交流程，可直接在单元测试方法内打断点。</li>
+<li>如需调试计算流程，可在<strong>org.apache.giraph.graph.GraphMapper</strong>中的run方法打断点。</li>
+<li>如需调试任务启动流程，可在<strong>org.apache.giraph.graph.GraphMapper</strong>中的setup方法打断点。</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-giraph-计算流程"><a href="#4-giraph-计算流程" class="headerlink" title="4. giraph 计算流程"></a>4. giraph 计算流程</h2><h3 id="4-1-zookeeper-简单介绍"><a href="#4-1-zookeeper-简单介绍" class="headerlink" title="4.1 zookeeper 简单介绍"></a>4.1 zookeeper 简单介绍</h3><blockquote>
+<p>giraph 利用来zookeeper来进行选主以及计算的同步，有必要对zookeeper进行简单介绍来更易于理解giraph的计算流程。</p>
+<p>（下文zk等同于zookeeper）</p>
+</blockquote>
+<p>zk的数据结构是一个具有层次的数据结构，类似于文件系统。</p>
+<pre class="mermaid">graph LR
+    A["/"]
+    A-->B["/NameService"]
+    B-->B1["/server1"]
+    B-->B2["/server2"]
+    B-->B3["/server3"]
+    A-->C["/conf"]
+    A-->D["/Apps"]
+    D-->D1["/app1"]
+    D-->D2["/app2"]
+    D-->D3["/app3"]
+    D3-->E["/subApp1"]
+    D3-->E1["/subApp2"]</pre>
+
+<p>这种数据结构有如下特点：</p>
+<ul>
+<li><p>每个子目录项如 NameService 都被称作为 znode，这个 znode 是被它所在的路径唯一标识，如 Server1 这个 znode 的标识为 /NameService/server1</p>
+</li>
+<li><p>znode 可以有子节点目录，并且每个 znode 可以存储数据，注意 EPHEMERAL 类型的目录节点不能有子节点目录，</p>
+</li>
+<li><p>znode 是有版本的，每个 znode 中存储的数据可以有多个版本，也就是一个访问路径中可以存储多份数据</p>
+</li>
+<li><p>znode 可以是临时节点，一旦创建这个 znode 的客户端与服务器失去联系，这个 znode 也将自动删除，Zookeeper 的客户端和服务器通信采用长连接方式，每个客户端和服务器通过心跳来保持连接，这个连接状态称为 session，如果 znode 是临时节点，这个 session 失效，znode 也就删除了<br> znode 的目录名可以自动编号，如 app1 已经存在，再创建的话，将会自动命名为 app2</p>
+</li>
+<li><p>znode 可以被监控，包括这个目录节点中存储的数据的修改，子节点目录的变化等，一旦变化可以通知设置监控的客户端，这个是 Zookeeper 的核心特性，Zookeeper 的很多功能都是基于这个特性实现的</p>
+</li>
+</ul>
+<p>zk的应用举例：</p>
+<ul>
+<li><p>统一命名服务（NameService）：</p>
+<p>分布式应用中，通常需要有一套完整的命名规则，既能够产生唯一的名称又便于人识别和记住。</p>
+<p>Name Service 已经是 Zookeeper 内置的功能，你只要调用 Zookeeper 的 API 就能实现。如调用 create 接口就可以很容易创建一个目录节点。</p>
+</li>
+<li><p>配置管理：</p>
+<p>可以将配置信息保存在zk的某个节点中，当配置信息发生变化时，每台应用节点都会收到zk的通知，便可从zk获取最新的配置信息到本节点。</p>
+</li>
+<li><p>Master选举：</p>
+<p>分布式系统一个重要的模式就是主从模式 (Master/Salves)，Zookeeper 可以用于该模式下的 Matser 选举。可以让所有服务节点去竞争性地创建同一个 ZNode，由于 Zookeeper 不能有路径相同的 ZNode，必然只有一个服务节点能够创建成功，这样该服务节点就可以成为 Master 节点。</p>
+</li>
+<li><p>分布式锁：</p>
+<p>分布式系统的所有服务节点可以竞争性地去创建同一个临时 ZNode，由于 zl不能有路径相同的 ZNode，必然只有一个服务节点能够创建成功，此时可以认为该节点获得了锁。其他没有获得锁的服务节点通过在该 ZNode 上注册监听，从而当锁释放时再去竞争获得锁。锁的释放情况有以下两种：</p>
+<ul>
+<li>当正常执行完业务逻辑后，客户端主动将临时 ZNode 删除，此时锁被释放；</li>
+<li>当获得锁的客户端发生宕机时，临时 ZNode 会被自动删除，此时认为锁已经释放。</li>
+</ul>
+<p>当锁被释放后，其他服务节点则再次去竞争性地进行创建，但每次都只有一个服务节点能够获取到锁，这就是排他锁</p>
+</li>
+<li><p>集群管理：</p>
+<ul>
+<li>如可以通过创建临时节点来建立心跳检测机制。如果分布式系统的某个服务节点宕机了，则其持有的会话会超时，此时该临时节点会被删除，相应的监听事件就会被触发。</li>
+<li>分布式系统的每个服务节点还可以将自己的节点状态写入临时节点，从而完成状态报告或节点工作进度汇报。</li>
+<li>通过数据的订阅和发布功能，zk 还能对分布式系统进行模块的解耦和任务的调度。</li>
+<li>通过监听机制，还能对分布式系统的服务节点进行动态上下线，从而实现服务的动态扩容。</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-2-Giraph中的MapReduce"><a href="#4-2-Giraph中的MapReduce" class="headerlink" title="4.2 Giraph中的MapReduce"></a>4.2 Giraph中的MapReduce</h3><p>giraph 利用来MapReduce的Mapper接口（org.apache.giraph.graph.GraphMapper），但是并没有用Mapper接口最重要的map方法，而是重写了setup、cleanup和run方法，giraph只是通过mr来利用Hadoop yarn集群中的计算节点，下面简单介绍一下Mapper接口的setup、cleanup和run方法。</p>
+<ul>
+<li><p><strong>setup</strong>: 此方法被MapReduce框架仅且执行一次，在执行Map任务前，进行相关变量或者资源的集中初始化工作。</p>
+<blockquote>
+<p>giraph利用setup来初始化GraphTaskManager。</p>
+</blockquote>
+</li>
+<li><p><strong>run</strong>:此方法是MapReduce中mapper task调用的方法，可以看到在这个方法默认实现中一开始调用了setup方法，循环中调用了map方法，最后调用了cleanup方法。</p>
+<blockquote>
+<p>giraph中改写了这个方法，没有调用map方法，调用了setup中初始化的GraphTaskManager的execute() 方法，并且在计算异常时主动删除zk节点，以更快的通知其它节点。</p>
+</blockquote>
+</li>
+<li><p><strong>cleanup</strong>：此方法在Map任务的最后阶段调用，执行清理操作。</p>
+</li>
+</ul>
+<p>MapReduce任务需要通过代码手动组装任务并提交到yarn集群中，在giraph中通过org.apache.giraph.GiraphRunner提交任务到yarn集群，具体的执行逻辑在org.apache.giraph.job.GiraphJob#run方法里，这里有一个点简单说一下：</p>
+<blockquote>
+<p>在GraphMapper的run方法中我们可以看到</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="comment">//....</span></span><br><span class="line">&gt;    <span class="keyword">while</span> (context.nextKeyValue()) &#123;</span><br><span class="line">&gt;      graphTaskManager.execute();</span><br><span class="line">&gt;    &#125;</span><br><span class="line">&gt; <span class="comment">//....</span></span><br><span class="line">&gt;       </span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>是在一个while循环里调用execute方法，其实这个循环只会执行一次，这说明context里面只读取到了一个值，这个读取的值通过org.apache.giraph.job.GiraphJob#run方法里的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; submittedJob.setInputFormatClass(BspInputFormat.class);</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>BspInputFormat.class决定，通过这个类里的createRecordReader决定，这里只返回了一个BspRecordReader，可以看到这个对象里面只会返回一对值，所以这个循环只会出现一次。</p>
+</blockquote>
+<p>另外介绍一下Map中Contex contex的context.progress()方法，这个方法是用来报告自己的状态</p>
+<h3 id="4-3-BSP"><a href="#4-3-BSP" class="headerlink" title="4.3 BSP"></a>4.3 BSP</h3><h4 id="4-3-1-master"><a href="#4-3-1-master" class="headerlink" title="4.3.1 master"></a>4.3.1 master</h4><p>master 的运行逻辑在<strong>org.apache.giraph.master.MasterThread</strong>的run()方法里。</p>
+<pre class="mermaid">graph LR
+    A["检查工人状态"]-->B["拆分数据"]
+    B-->C["执行超步循环"]</pre>
+
+<p>超步循环最核心的逻辑在 <strong>org.apache.giraph.master.BspServiceMaster#coordinateSuperstep</strong>方法里</p>
+<pre class="mermaid">graph TB
+    A["assignPartitionOwners() <br>1,生成partitionOwners集合 <br>2,zk中创建vertexExchangePath节点 <br>3,向每个work发送分区信息"]
+    A-->B["通过调用barrierOnWorkerList方法来检查work是否写完检查点"]
+    B-->C["发送聚合器，<br>如果是第一次则初始化聚合器"]
+    C-->D["通过调用barrierOnWorkerList方法来检查work是否完成工作"]
+    D-->E["收集所有聚合值计算并存储"]
+    E-->F["判断计算是否需要停止"]
+    F-->G["创建完成zk节点,<br>把聚合统计信息写入节点"]</pre>
+
+<blockquote>
+<p>barrierOnWorkerList 原理：创建一个zk中的znode节点，查找该节点的子节点数量是否等于work数量，不想等则进入线程等待状态，后面只要有work在改znode下创建子节点便会触发继续判断是否相等。</p>
+</blockquote>
+<h4 id="4-3-2-client"><a href="#4-3-2-client" class="headerlink" title="4.3.2 client"></a>4.3.2 client</h4><p>client的运行逻辑在 <strong>org.apache.giraph.graph.GraphTaskManager#execute</strong>方法里</p>
+<p>execute方法里的while循环便是work超步的循环。</p>
+<ul>
+<li><p>serviceWorker.startSuperstep() 超步计算开始前的准备工作</p>
+<pre class="mermaid">  graph LR;
+    A["prepareSuperstep()<br>处理上一步的消息"]
+    B["registerHealth<br>通过向zk注册节点<br>表明自己的健康状况"]
+    A-->B    
+    B-->C["等待分区数据的分配完成"]    
+    C-->D["从上一个超步拿到聚合值<br>通过getSuperstep()<br>从zk获取"]</pre>
+</li>
+<li><p>serviceWorker.exchangeVertexPartitions(masterAssignedPartitionOwners) </p>
+<pre class="mermaid">  graph LR 
+    A["updatePartitionOwners<br>获取最新的分区信息"]
+    A-->B["sendWorkerPartitions<br>将分区发送给所有work"]
+    B-->C["getApplicationAttempt<br>在zk创建一个节点，代表当前节点完成"]
+    C-->D["等待依赖节点完成<br>通过检查zk vertexExchangePath下的节点"]</pre>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>processGraphPartitions 执行每一个超步具体的计算</p>
+<ul>
+<li><p>生成 ComputeCallable来做具体的计算工作，通过里面的call来执行具体的计算逻辑</p>
+<pre class="mermaid">    graph TB
+A["初始化计算线程"]
+A-->B["获取写入顶点的接口"]
+B-->C["创建计算的对象<br>Computation的实例"]
+C-->D["初始化计算对象和执行计算对象前置方法"]
+D-->E["获取分区存储、OutOfCoreEngine、taskManager"]
+E-->F["获取一个分区partition"]
+F-->G{"partion是否为空"}
+G-->|Yes| GOK["退出循环,执行计算后的后置操作"]
+G-->|No| GNO["处理分区数据变化"]
+GNO-->H1["获取分区的点集合"]
+H1-->H2{"是否忽视现有点"}
+H2-->|Yes|H3["遍历分区内目标点的集合<br>1,获取点的消息<br>2,调用计算对象的compute计算<br>3,去除计算过的消息"]
+H2-->|No|H4["遍历分区的所有点的集合<br>1,获取点的消息<br>2,依据点的状态和是否有消息判断是否计算<br>3,处理边的变化，保存点，去除计算过的消息"]
+H3-->H5["清理分区"]
+H4-->H5
+subgraph "computePartition 计算分区数据"
+    H1
+    H2
+    H3
+    H4
+    H5
+end
+H5-->J["一些指标的统计"]
+J-->F
+GOK-->L["flush 消息"]</pre>
+
+
+
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>completeSuperstepAndCollectStats 方法里处理每个超步的计算结束。</p>
+<ul>
+<li><p>org.apache.giraph.worker.BspServiceWorker#finishSuperstep</p>
+<pre class="mermaid">    graph LR
+A["waitForRequestsToFinish <br> 等待所有未完成的请求完成"]
+B["globalCommHandler.finishSuperste<br> 计算聚合器的值<br>发送结果给master"]
+A-->B
+B-->C["writeFinshedSuperstepInfoToZK<br>将完成的超步信息写入到zk"]
+C-->D["waitForOtherWorkers<br>通过等待master创建完成zk完成标志节点"]</pre>
+
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-4-pregel"><a href="#4-4-pregel" class="headerlink" title="4.4 pregel"></a>4.4 pregel</h3><h4 id="4-4-1-pregel-简述"><a href="#4-4-1-pregel-简述" class="headerlink" title="4.4.1 pregel 简述"></a>4.4.1 pregel 简述</h4><p>Pregel的计算过程是由一系列被称为“超步”的迭代组成的。</p>
+<p>在每个超步中，每个顶点上面都会并行执行用户自定义的函数，该函数描述了一个顶点V在一个超步S中需要执行的操作。</p>
+<p>该函数可以读取前一个超步(S-1)中其他顶点发送给顶点V的消息，执行相应计算后，修改顶点V及其出射边的状态，然后沿着顶点V的出射边发送消息给其他顶点，而且，一个消息可能经过多条边的传递后被发送到任意已知ID的目标顶点上去。</p>
+<pre class="mermaid">graph LR
+title[<u>顶点之间的消息传递</u>]
+style title fill:#FFF,stroke:#FFF
+A["A compute()计算"]
+B["B compute()计算"]
+D["C compute()计算"]
+A---B
+A---D
+A.->|"消息"|B
+B.->|"消息"|A
+A.->|"消息"|D
+D.->|"消息"|A</pre>
+
+
+
+<p>这些消息将会在下一个超步(S+1)中被目标顶点接收，然后像上述过程一样开始下一个超步(S+1)的迭代过程。</p>
+<p>在Pregel计算过程中，一个算法什么时候可以结束，是由所有顶点的状态决定的。</p>
+<p>在第0个超步，所有顶点处于活跃状态。</p>
+<p>当一个顶点不需要继续执行进一步的计算时，就会把自己的状态设置为“停机”，进入非活跃状态。</p>
+<p>当一个处于非活跃状态的顶点收到来自其他顶点的消息时，Pregel计算框架必须根据条件判断来决定是否将其显式唤醒进入活跃状态。</p>
+<p>当图中所有的顶点都已经标识其自身达到“非活跃（inactive）”状态，并且没有消息在传送的时候，算法就可以停止运行。</p>
+<pre class="mermaid">graph LR
+title[<u>状态变化</u>]
+style title fill:#FFF,stroke:#FFF
+A(("活跃"))--"不需要执行进一步计算"-->B(("不活跃"))
+B--"收到消息后"-->A</pre>
+
+
+
+<h4 id="4-4-2-giraph-代码例子"><a href="#4-4-2-giraph-代码例子" class="headerlink" title="4.4.2 giraph 代码例子"></a>4.4.2 giraph 代码例子</h4><p>最根本的是<strong>org.apache.giraph.graph.Computation</strong>接口，最重要的是实现里面的<strong>compute</strong>方法。</p>
+<p>compute方法会在<a href="#4.3.2 client">4.3.2 client</a> 中的ComputeCallable的call来调用</p>
+<p>compute的方法实现，例如求连通分量中的实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">compute</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">     Vertex&lt;IntWritable, IntWritable, NullWritable&gt; vertex,</span></span></span><br><span class="line"><span class="function"><span class="params">     Iterable&lt;IntWritable&gt; messages)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">   <span class="keyword">int</span> currentComponent = vertex.getValue().get();</span><br><span class="line"></span><br><span class="line">   <span class="comment">// First superstep is special, because we can simply look at the neighbors</span></span><br><span class="line">   <span class="keyword">if</span> (getSuperstep() == <span class="number">0</span>) &#123;</span><br><span class="line">     <span class="keyword">for</span> (Edge&lt;IntWritable, NullWritable&gt; edge : vertex.getEdges()) &#123;</span><br><span class="line">       <span class="keyword">int</span> neighbor = edge.getTargetVertexId().get();</span><br><span class="line">       <span class="keyword">if</span> (neighbor &lt; currentComponent) &#123;</span><br><span class="line">         currentComponent = neighbor;</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="comment">// Only need to send value if it is not the own id</span></span><br><span class="line">     <span class="keyword">if</span> (currentComponent != vertex.getValue().get()) &#123;</span><br><span class="line">       vertex.setValue(<span class="keyword">new</span> IntWritable(currentComponent));</span><br><span class="line">       <span class="keyword">for</span> (Edge&lt;IntWritable, NullWritable&gt; edge : vertex.getEdges()) &#123;</span><br><span class="line">         IntWritable neighbor = edge.getTargetVertexId();</span><br><span class="line">         <span class="keyword">if</span> (neighbor.get() &gt; currentComponent) &#123;</span><br><span class="line">           sendMessage(neighbor, vertex.getValue());</span><br><span class="line">         &#125;</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     vertex.voteToHalt();</span><br><span class="line">     <span class="keyword">return</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">boolean</span> changed = <span class="keyword">false</span>;</span><br><span class="line">   <span class="comment">// did we get a smaller id ?</span></span><br><span class="line">   <span class="keyword">for</span> (IntWritable message : messages) &#123;</span><br><span class="line">     <span class="keyword">int</span> candidateComponent = message.get();</span><br><span class="line">     <span class="keyword">if</span> (candidateComponent &lt; currentComponent) &#123;</span><br><span class="line">       currentComponent = candidateComponent;</span><br><span class="line">       changed = <span class="keyword">true</span>;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">// propagate new component id to the neighbors</span></span><br><span class="line">   <span class="keyword">if</span> (changed) &#123;</span><br><span class="line">     vertex.setValue(<span class="keyword">new</span> IntWritable(currentComponent));</span><br><span class="line">     sendMessageToAllEdges(vertex, vertex.getValue());</span><br><span class="line">   &#125;</span><br><span class="line">   vertex.voteToHalt();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/图计算/" rel="tag"># 图计算</a>
+          
+            <a href="/tags/giraph/" rel="tag"># giraph</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/12/22/VF3算法剪枝调研/" rel="next" title="VF3剪枝调研">
+                <i class="fa fa-chevron-left"></i> VF3剪枝调研
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2022/12/31/2022/" rel="prev" title="2022">
+                2022 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/headimg.png" alt="三苦糖">
+            
+              <p class="site-author-name" itemprop="name">三苦糖</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">56</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">26</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#apache-giraph-调研文档"><span class="nav-number">1.</span> <span class="nav-text">apache giraph 调研文档</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-背景介绍"><span class="nav-number">1.1.</span> <span class="nav-text">1. 背景介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-giraph-项目结构"><span class="nav-number">1.2.</span> <span class="nav-text">2. giraph 项目结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-giraph-编译调试"><span class="nav-number">1.3.</span> <span class="nav-text">3. giraph 编译调试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-拉取代码"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 拉取代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-编译打包"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 编译打包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-调试"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 调试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-giraph-计算流程"><span class="nav-number">1.4.</span> <span class="nav-text">4. giraph 计算流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-zookeeper-简单介绍"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 zookeeper 简单介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-Giraph中的MapReduce"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 Giraph中的MapReduce</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-BSP"><span class="nav-number">1.4.3.</span> <span class="nav-text">4.3 BSP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-1-master"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">4.3.1 master</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-2-client"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">4.3.2 client</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-pregel"><span class="nav-number">1.4.4.</span> <span class="nav-text">4.4 pregel</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-1-pregel-简述"><span class="nav-number">1.4.4.1.</span> <span class="nav-text">4.4.1 pregel 简述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-2-giraph-代码例子"><span class="nav-number">1.4.4.2.</span> <span class="nav-text">4.4.2 giraph 代码例子</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <a href="https://www.guoke.com/">一切过往，皆为序章</a><br>
+<a href="https://www.foreverblog.cn/blog/5271.html">
+    <img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed@master/uPic/2024/02/ZV0UN6.png" alt="点击打开十年之约" style="width:auto;height:20px;">
+</a>
+<a href="https://www.foreverblog.cn/go.html" target="_blank"> <img src="https://img.foreverblog.cn/wormhole_3_tp.gif" alt style="width:auto;height:20px;" title="穿梭虫洞-随机访问十年之约友链博客"></a>
+<div class="copyright">&copy;
+
+
+<span itemprop="copyrightYear">2025</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">三苦糖</span>
+
+  
+
+  
+</div>
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a></div>
+
+
+
+
+<script src="https://unpkg.com/mermaid@9.3.0/dist/mermaid.min.js"></script>
+<script>
+    if (window.mermaid) {
+      mermaid.initialize("{}");
+    }
+</script>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: true,
+    appId: 'L0VJjux25XexrjCKamTa0NP9-gzGzoHsz',
+    appKey: 'oydH3fLm1ydFfUbgAt0yeDeU',
+    placeholder: '留下你的评论～',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

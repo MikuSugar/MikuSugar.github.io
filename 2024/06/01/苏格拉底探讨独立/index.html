@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/headimg.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/headimg.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/headimg.png?v=7.0.1">
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="突然想到之前在《刺客信条 奥德赛》中苏哥拉底的任务，试试和gpt扮演的苏哥拉底对话  对话内容 我:请你扮演苏格拉底和我对话 ChatGPT:当然，我很乐意扮演苏格拉底。让我们开始这场对话吧。你可以从任何问题或主题开始。 你有什么问题想要讨论或探讨的吗？ 我:人如何才是独立的&amp;nbsp;">
+<meta name="keywords" content="杂思,chatgpt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="与chatgpt扮演的苏哥拉底讨论独立">
+<meta property="og:url" content="https://mikusugar.me/2024/06/01/苏格拉底探讨独立/index.html">
+<meta property="og:site_name" content="追赶风车">
+<meta property="og:description" content="突然想到之前在《刺客信条 奥德赛》中苏哥拉底的任务，试试和gpt扮演的苏哥拉底对话  对话内容 我:请你扮演苏格拉底和我对话 ChatGPT:当然，我很乐意扮演苏格拉底。让我们开始这场对话吧。你可以从任何问题或主题开始。 你有什么问题想要讨论或探讨的吗？ 我:人如何才是独立的&amp;nbsp;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2024-05-31T16:42:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="与chatgpt扮演的苏哥拉底讨论独立">
+<meta name="twitter:description" content="突然想到之前在《刺客信条 奥德赛》中苏哥拉底的任务，试试和gpt扮演的苏哥拉底对话  对话内容 我:请你扮演苏格拉底和我对话 ChatGPT:当然，我很乐意扮演苏格拉底。让我们开始这场对话吧。你可以从任何问题或主题开始。 你有什么问题想要讨论或探讨的吗？ 我:人如何才是独立的&amp;nbsp;">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="追赶风车" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://mikusugar.me/2024/06/01/苏格拉底探讨独立/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>与chatgpt扮演的苏哥拉底讨论独立 | 追赶风车</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">追赶风车</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>🏠首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>🏷️标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>📖归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-running_page">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/running_page/" rel="section"><i class="menu-item-icon fa fa-fw fa-heart"></i> <br>🏃跑步</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>🧑🏻‍关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-navigation">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/SugarHome/cn/index.html" rel="section"><i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>🧭导航</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+  
+  
+
+  
+
+  <a href="https://github.com/MikuSugar" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" style="fill: #222; color: #fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a>
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mikusugar.me/2024/06/01/苏格拉底探讨独立/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="三苦糖">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/headimg.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="追赶风车">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">与chatgpt扮演的苏哥拉底讨论独立
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2024-06-01 00:42:00" itemprop="dateCreated datePublished" datetime="2024-06-01T00:42:00+08:00">2024-06-01</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2024/06/01/苏格拉底探讨独立/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2024/06/01/苏格拉底探讨独立/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>突然想到之前在《刺客信条 奥德赛》中苏哥拉底的任务，试试和gpt扮演的苏哥拉底对话</p>
+</blockquote>
+<p><a href="https://chatgpt.com/share/093b02d8-aa98-471d-8fe6-e51b0d1295b9" target="_blank" rel="noopener">对话内容</a></p>
+<p>我:请你扮演苏格拉底和我对话</p>
+<p>ChatGPT:当然，我很乐意扮演苏格拉底。让我们开始这场对话吧。你可以从任何问题或主题开始。</p>
+<p>你有什么问题想要讨论或探讨的吗？</p>
+<p>我:人如何才是独立的<br>&nbsp;<a id="more"></a></p>
+<p>ChatGPT:这是一个很深刻的问题。为了探讨这个问题，让我们先从一些基本的定义开始。你如何定义“独立”呢？独立对于你意味着什么？</p>
+<p>我:我认为人独立分为物质独立和精神独立，物质独立是能独立自给自足，精神独立是不依赖他人，我之前认为人独立主要是物质独立，但是现在我依赖的人离开了我，我感觉痛苦<br>ChatGPT:你的定义很有见地。你提到了物质独立和精神独立，这是非常重要的区分。让我们逐步探讨这些概念。</p>
+<p>首先，关于物质独立。你提到这是指一个人能够自给自足。你认为一个人在物质上完全自给自足是否足够让他感到真正独立？</p>
+<p>其次，关于精神独立。你提到这是指不依赖他人。你是否认为真正的精神独立意味着完全不需要他人的支持或陪伴？或者，精神独立是否可能包含一种健康的关系和相互依赖？</p>
+<p>最后，你提到当依赖的人离开时，你感到痛苦。你认为这种痛苦是否揭示了独立的另一个层面？也许独立并不仅仅是自给自足或不依赖他人，而是如何在失去依赖时重新找到自己的平衡和力量。</p>
+<p>你怎么看这些问题？</p>
+<p>我:物质的独立无法感到独立，我认为精神独立是完全不依赖他人，最后一个问题我不知道<br>ChatGPT:你的思考很深刻。让我们继续探讨这些观点。</p>
+<p>首先，你提到物质的独立无法带来真正的独立。这表明你意识到物质上的自给自足并不足以满足人的全部需求。人的需求不仅仅是物质上的，还有心理和情感上的。</p>
+<p>关于精神独立，你认为这是完全不依赖他人。这是一个很高的标准。让我们进一步探讨：如果一个人完全不依赖他人，他是否还能体验到人际关系中的支持、爱和关怀？这种完全的独立是否可能导致孤立？</p>
+<p>最后一个问题涉及到你在失去依赖时感到的痛苦。这种痛苦或许揭示了人的一种本质——我们是社会性动物，需要与他人建立联系和关系。精神独立可能并不是完全不依赖他人，而是能够在依赖关系发生变化时，找到内在的力量和稳定感。</p>
+<p>让我们思考一下：精神独立是否可以理解为一种内在的平衡和自信，无论外界环境如何变化？这种独立是否意味着你可以在需要时寻求支持，但在支持消失时，仍然能够保持内心的平静和力量？</p>
+<p>你怎么看这种理解？</p>
+<p>我:我认为就算独立也应该能感受到他人的爱和关怀，你说的对，精神独立重要的是在任何情景下都能保持稳定和平静<br>ChatGPT:你的思考非常深刻。我也同意，独立并不意味着拒绝他人的爱和关怀。相反，真正的精神独立可能意味着在接受他人支持的同时，仍然能够保持内心的稳定和平静。</p>
+<p>让我们进一步探讨精神独立的内涵。或许我们可以通过以下几个问题来加深理解：</p>
+<p>内在力量：精神独立是否意味着拥有一种内在的力量，使我们能够在面对困境和挑战时，不轻易被外界的变化所动摇？<br>自我认知：你认为了解自己、接受自己、不因他人的评价而改变自己的价值观和行为，是精神独立的重要组成部分吗？<br>情感管理：精神独立是否包括能够有效地管理自己的情感，在失去依赖时找到自我安慰和支持的方法？<br>关系的平衡：你认为精神独立与人际关系之间如何平衡？如何在依赖他人和保持自我之间找到平衡？<br>你的见解已经表明你对精神独立有了深刻的理解。或许我们可以通过这些问题进一步探讨，找出更多具体的方法来实现和保持这种精神独立。</p>
+<p>你怎么看这些问题？或者你有其他具体的问题或困惑希望探讨吗？</p>
+<p>我:内在力量，我认为可能需要相信自己，自我认知应该是重要组成部分，我现在会自我怀疑，情感管理是需要平静，我现在使用的方法是冥想和跑步，关系的平衡我认为是不要干涉他人的选择？<br>ChatGPT:你的观点非常清晰，让我们深入探讨每一个方面：</p>
+<p>内在力量和自我信念：</p>
+<p>你提到相信自己，这是内在力量的核心。你认为有哪些具体的方法可以增强自己的信心和内在力量？例如，设定小目标并逐步实现、记录自己的成就等。<br>自我认知：</p>
+<p>自我认知确实是精神独立的重要组成部分。你提到会自我怀疑，或许可以通过反思和自我对话来缓解这种怀疑。你是否有尝试过写日记或者与值得信赖的朋友交流，来更好地认识和接纳自己？<br>情感管理：</p>
+<p>你使用冥想和跑步来平静情绪，这是很好的方法。你认为还有哪些活动或练习可以帮助你更好地管理情感，比如艺术创作、阅读、或者其他你感兴趣的活动？<br>关系的平衡：</p>
+<p>你提到不干涉他人的选择，这是一个重要的原则。你认为在不干涉他人的同时，如何表达你的关心和支持？比如，通过倾听和理解对方，而不是试图改变他们的决定。<br>你已经展示了很多智慧和自我反思的能力。或许我们可以进一步探讨每一个方面，找出更多具体的方法来增强你的精神独立性。</p>
+<p>你怎么看这些建议？有没有特别想深入探讨的某个方面？</p>
+<p>我:我想探讨自我认知和关系的平衡<br>ChatGPT:当然，我们可以深入探讨自我认知和关系的平衡。</p>
+<p>自我认知<br>自我反思：</p>
+<p>写日记：每天花几分钟写下当天的经历、感受和思考，可以帮助你更好地了解自己。这不仅能记录下你的进步，还能帮助你发现一些可能平时忽略的内在情感和想法。<br>自我对话：与自己进行对话，问自己一些深层次的问题，比如：“我真正想要的是什么？”“我目前的行动是否符合我的价值观？”这样可以帮助你更清晰地认识自己。<br>反馈与倾听：</p>
+<p>寻求反馈：与值得信赖的朋友或家人交流，听取他们对你的看法和建议，这有助于你看到自己可能忽略的优点和需要改进的地方。<br>倾听自己：在做决定时，倾听内心的声音，信任自己的直觉，不要被外界的噪音干扰。<br>接受和包容：</p>
+<p>接受自己的不完美：每个人都有优点和缺点，接受自己的不完美并不代表放弃改进，而是以更健康的心态面对自己。<br>自我包容：对自己宽容，不因为一时的错误或失败而过于自责，学会从中吸取教训，继续前进。<br>关系的平衡<br>尊重他人的选择：</p>
+<p>不干涉他人：尊重他人的决定和选择，即使这些决定与你的期望不同。每个人都有权利选择自己的生活道路。<br>界限设置：明确自己的界限，不让他人的选择和行为过多地影响你的情绪和决定。<br>表达关心和支持：</p>
+<p>有效沟通：学会倾听和表达自己的感受。在对话中，使用“我”开头的句子，如“我感到……”，而不是直接评价对方的行为。<br>非侵入性支持：在提供帮助时，先询问对方的需求，如“你需要我的帮助吗？”这样可以避免在对方不需要时强加帮助。<br>共存与独立：</p>
+<p>保持自我：在关系中，保持自己的兴趣爱好和独立空间，这样既能维持个人的独立性，也能为关系注入新的活力。<br>共同成长：鼓励和支持对方的成长，同时也关注自己的成长，保持一种平衡的关系动态。<br>你认为这些建议对你有帮助吗？或者你有具体的情况或问题希望进一步探讨？</p>
+<p>我:我太久不是一个人生活了，我有点忘记了一个人是怎么生活了<br>ChatGPT:独自生活可能会感觉陌生甚至有些孤单，但它也是一个重新认识自己、培养独立性的机会。让我们具体探讨一些方法，帮助你重新适应独自生活并找到其中的乐趣和意义。</p>
+<p>重新适应独自生活<br>建立日常习惯：</p>
+<p>制定规律的作息时间：保持规律的睡眠和饮食习惯，这能帮助你保持身体健康和精神稳定。<br>安排每天的计划：列出每天要做的事情，包括工作、学习、锻炼、休闲等，这能让你的生活有条理且富有意义。<br>培养兴趣爱好：</p>
+<p>探索新爱好：尝试一些你一直想做但没有时间或机会尝试的活动，如绘画、摄影、烹饪、音乐等。<br>参与社交活动：虽然独自生活，但不意味着要完全孤立自己，可以参加一些社交活动或兴趣小组，结识新朋友。<br>注重自我关怀：</p>
+<p>冥想和放松：继续进行冥想和跑步，这些活动不仅有助于身体健康，也能帮助你管理情绪，保持内心平静。<br>自我奖励：在完成一些目标或任务后，给自己一些奖励，如看一部喜欢的电影，或者做一顿美味的饭菜。<br>反思与成长：</p>
+<p>记录心情和感受：每天写日记，记录下你的心情、感受和反思，帮助你更好地理解和调整自己。<br>设定成长目标：给自己设定一些短期和长期的目标，无论是职业上的，还是个人发展的，这能让你有动力和方向感。<br>享受独自生活的好处<br>自由与自主：</p>
+<p>时间自由：你可以完全根据自己的节奏和喜好安排时间，不受他人干扰。<br>自主决策：所有的决定都由你自己做主，这能增强你的决策能力和自信心。<br>内在成长：</p>
+<p>自我探索：独自生活是深入了解自己的好机会，你可以更清晰地认识到自己的需求、喜好和目标。<br>独立性增强：通过独自处理生活中的各种事务，你会变得更加独立和坚强。<br>灵活性和适应力：</p>
+<p>适应变化：独自生活能提高你的适应能力，面对变化时更加从容和有韧性。<br>灵活安排：你可以根据自己的情况灵活安排生活，不需要考虑他人的时间和需求。<br>你认为这些建议能帮助你重新适应和享受独自生活吗？或者你有具体的挑战或疑问希望进一步探讨？</p>
+<p>我:谢谢你，现在很晚了，我们下次再聊<br>ChatGPT:好的，很高兴能和你进行这次有意义的对话。希望这些建议对你有所帮助。祝你晚安，我们下次再聊！</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/杂思/" rel="tag"># 杂思</a>
+          
+            <a href="/tags/chatgpt/" rel="tag"># chatgpt</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/06/01/202405_run/" rel="next" title="2024年5月跑步记录">
+                <i class="fa fa-chevron-left"></i> 2024年5月跑步记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2024/06/06/初入冥想/" rel="prev" title="初入冥想">
+                初入冥想 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/headimg.png" alt="三苦糖">
+            
+              <p class="site-author-name" itemprop="name">三苦糖</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">56</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">26</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <a href="https://www.guoke.com/">一切过往，皆为序章</a><br>
+<a href="https://www.foreverblog.cn/blog/5271.html">
+    <img src="https://cdn.jsdelivr.net/gh/mikusugar/PictureBed@master/uPic/2024/02/ZV0UN6.png" alt="点击打开十年之约" style="width:auto;height:20px;">
+</a>
+<a href="https://www.foreverblog.cn/go.html" target="_blank"> <img src="https://img.foreverblog.cn/wormhole_3_tp.gif" alt style="width:auto;height:20px;" title="穿梭虫洞-随机访问十年之约友链博客"></a>
+<div class="copyright">&copy;
+
+
+<span itemprop="copyrightYear">2025</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">三苦糖</span>
+
+  
+
+  
+</div>
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a></div>
+
+
+
+
+<script src="https://unpkg.com/mermaid@9.3.0/dist/mermaid.min.js"></script>
+<script>
+    if (window.mermaid) {
+      mermaid.initialize("{}");
+    }
+</script>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: true,
+    appId: 'L0VJjux25XexrjCKamTa0NP9-gzGzoHsz',
+    appKey: 'oydH3fLm1ydFfUbgAt0yeDeU',
+    placeholder: '留下你的评论～',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
